@@ -1,6 +1,6 @@
 package cn.tesseract.rwally.command;
 
-import cn.tesseract.rwally.RWHelper;
+import cn.tesseract.rwally.util.RWHelper;
 import com.corrodinggames.rts.ally.game.class_315;
 
 public abstract class PlayerCommand extends CommandBase {

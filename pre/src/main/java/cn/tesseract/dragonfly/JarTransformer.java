@@ -16,7 +16,7 @@ public class JarTransformer {
 
     public static void main(String[] args) throws IOException {
         File old = new File(dir, "libs/bak/classes.jar"),
-                inject = new File(dir, "build/libs/dragonfly-1.0-SNAPSHOT-all.jar"),
+                inject = new File(dir, "build/libs/rwally-1.0-SNAPSHOT-all.jar"),
                 transformed = new File(dir, "libs/classes.jar"),
                 apk = new File(dir, "libs/base.apk");
 
@@ -40,7 +40,8 @@ public class JarTransformer {
                     if (className.endsWith("Hook")) {
                         transformer.logger.debug("Parsing hooks container " + className);
                         transformer.registerHookContainer(data);
-                    }
+                    }else if(className.startsWith("Accessor")){}
+
                     data = transformer.transform(className, data);
                 }
                 newJar.write(data);

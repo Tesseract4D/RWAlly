@@ -42,6 +42,7 @@ tasks.register('installAPK', Exec) {
 }
 
 tasks.register('run') {
+    dependsOn shadowJar
     doLast {
         project(':pre').getTasksByName("transform", false).getAt(0).exec()
         jar2dex.exec()

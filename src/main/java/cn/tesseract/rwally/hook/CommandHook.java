@@ -1,7 +1,8 @@
 package cn.tesseract.rwally.hook;
 
 import cn.tesseract.dragonfly.asm.Hook;
-import cn.tesseract.rwally.RWHelper;
+import cn.tesseract.rwally.util.RWHelper;
+import cn.tesseract.rwally.Reference;
 import cn.tesseract.rwally.command.CommandBase;
 import cn.tesseract.rwally.command.SingleDoubleCommand;
 import cn.tesseract.rwally.command.SingleIntegerCommand;
@@ -17,22 +18,36 @@ public class CommandHook {
     public static HashMap<String, CommandBase> commands = new HashMap<>();
 
     static {
-        commands.put("echo", new CommandBase(1, true, "·¢ËÍĞÅÏ¢£¬ÕâÊÇ½áÃË°æ¼ÓÈëµÄµÚÒ»¸öÖ¸Áî") {
+        commands.put("echo", new CommandBase(1, true, "å‘é€ä¿¡æ¯ï¼Œè¿™æ˜¯ç»“ç›Ÿç‰ˆåŠ å…¥çš„ç¬¬ä¸€ä¸ªæŒ‡ä»¤") {
             @Override
             public String processCommand(class_315 sender, String[] args) {
                 RWHelper.sendSysMessage(args[0]);
                 return null;
             }
         });
-        commands.put("max", new SingleIntegerCommand(1, true, "ÉèÖÃ×î´óÈËÊı") {
+        commands.put("bu", new CommandBase(1, true, "ç¦ç”¨å•ä½") {
+            @Override
+            public String processCommand(class_315 sender, String[] args) {
+                Reference.bannedUnits.add(args[0]);
+                return "å·²ç¦ç”¨å•ä½ " + args[0] + " ï¼";
+            }
+        });
+        commands.put("ub", new CommandBase(1, true, "è§£ç¦å•ä½") {
+            @Override
+            public String processCommand(class_315 sender, String[] args) {
+                Reference.bannedUnits.remove(args[0]);
+                return "å·²è§£ç¦å•ä½ " + args[0] + " ï¼";
+            }
+        });
+        commands.put("max", new SingleIntegerCommand(1, true, "è®¾ç½®æœ€å¤§äººæ•°") {
             @Override
             public String processCommand(int n) {
                 n = Math.min(n, 10);
                 RWHelper.setMaxPlayer(n);
-                return "×î´óÈËÊıÒÑÉèÖÃÎª " + n + " ÈË£¡";
+                return "æœ€å¤§äººæ•°å·²è®¾ç½®ä¸º " + n + " äººï¼";
             }
         });
-        commands.put("in", new SingleDoubleCommand(1, true, "ÉèÖÃÊÕÈë±¶Êı") {
+        commands.put("in", new SingleDoubleCommand(1, true, "è®¾ç½®æ”¶å…¥å€æ•°") {
             static final MethodAccessor refreshServerInfo = new MethodAccessor(MultiplayerBattleroomActivity.class, "refreshServerInfo");
 
             @Override
@@ -40,33 +55,33 @@ public class CommandHook {
                 RWHelper.getNetworkEngine().aA.h = (float) n;
                 refreshServerInfo.invoke(MultiplayerBattleroomActivity.lastLoaded);
                 RWHelper.sync();
-                return "ÊÕÈë±¶ÂÊÒÑÉèÎª " + n + " £¡";
+                return "æ”¶å…¥å€ç‡å·²è®¾ä¸º " + n + " ï¼";
             }
         });
-        commands.put("sync", new CommandBase(0, true, "Á¢¿ÌÍ¬²½") {
+        commands.put("sync", new CommandBase(0, true, "ç«‹åˆ»åŒæ­¥") {
             @Override
             public String processCommand(class_315 sender, String[] args) {
                 RWHelper.sync();
                 return null;
             }
         });
-        commands.put("debug", new CommandBase(0, true, "µ÷ÊÔÖ¸Áî") {
+        commands.put("debug", new CommandBase(0, true, "è°ƒè¯•æŒ‡ä»¤") {
 
             @Override
             public String processCommand(class_315 sender, String[] args) {
                 for (Object o : RWHelper.getNetworkEngine().aO) {
-                    RWHelper.sendMessage((class_1054) o, "[ÌáÊ¾]", "²âÊÔ");
+                    RWHelper.sendMessage((class_1054) o, "[æç¤º]", "æµ‹è¯•");
                 }
                 return null;
             }
         });
-        commands.put("uc", new SingleIntegerCommand(0, true, "ÉèÖÃµ¥Î»ÉÏÏß") {
+        commands.put("uc", new SingleIntegerCommand(0, true, "è®¾ç½®å•ä½ä¸Šçº¿") {
             @Override
             public String processCommand(int n) {
                 RWHelper.getNetworkEngine().ay = n;
                 RWHelper.getNetworkEngine().az = n;
                 RWHelper.sync();
-                return "µ¥Î»ÉÏÏŞÒÑÉèÎª " + n + " £¡";
+                return "å•ä½ä¸Šé™å·²è®¾ä¸º " + n + " ï¼";
             }
         });
     }
@@ -79,12 +94,10 @@ public class CommandHook {
             String[] arr = msg.substring(1).split(" ", 2);
             CommandBase cmd;
             if ((cmd = commands.get(arr[0])) != null) {
-                if (cmd.requireOp && !isHost)
-                    RWHelper.sendSysMessage("½ö·¿Ö÷¿ÉÊ¹ÓÃ¸ÃÖ¸Áî£¡", class_1054Var);
+                if (cmd.requireOp && !isHost) RWHelper.sendSysMessage("ä»…æˆ¿ä¸»å¯ä½¿ç”¨è¯¥æŒ‡ä»¤ï¼", class_1054Var);
                 else {
                     String r = cmd.processCommand(class_315Var, arr.length == 1 ? new String[0] : arr[1].split(" ", cmd.args));
-                    if (r != null && !r.isEmpty())
-                        RWHelper.sendSysMessage(r, class_1054Var);
+                    if (r != null && !r.isEmpty()) RWHelper.sendSysMessage(r, class_1054Var);
                 }
             }
         }

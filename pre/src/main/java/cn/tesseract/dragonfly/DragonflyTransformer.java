@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class DragonflyTransformer extends HookClassTransformer {
-    public static final HashMap<String, List<NodeTransformer>> transformerMap = new HashMap<>();
+    public final HashMap<String, List<NodeTransformer>> transformerMap = new HashMap<>();
     public static boolean dumpTransformedClass = true;
 
     static {
@@ -52,7 +52,7 @@ public class DragonflyTransformer extends HookClassTransformer {
         return classBytes;
     }
 
-    public static void registerNodeTransformer(String className, NodeTransformer transformer) {
+    public void registerNodeTransformer(String className, NodeTransformer transformer) {
         List<NodeTransformer> list = transformerMap.computeIfAbsent(className.replace('/', '.'), k -> new ArrayList<>());
         list.add(transformer);
     }
