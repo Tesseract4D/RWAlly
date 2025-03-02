@@ -5,8 +5,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.widget.Spinner;
-import cn.tesseract.rwally.asm.Hook;
-import cn.tesseract.rwally.asm.ReturnCondition;
+import cn.tesseract.dragonfly.asm.Hook;
+import cn.tesseract.dragonfly.asm.ReturnCondition;
 import cn.tesseract.rwally.reflect.MethodAccessor;
 import com.corrodinggames.rts.ally.appFramework.MainMenuActivity;
 import com.corrodinggames.rts.ally.appFramework.MultiplayerBattleroomActivity;
@@ -32,18 +32,16 @@ import java.util.List;
 public class CommonHook {
     public static File rwDir = new File(class_916.e("/SD/rustedWarfare"));
 
-    //最初的加载
     @Hook
     public static void onCreate(MainMenuActivity c, Bundle bundle) {
 
     }
 
-    @Hook(targetMethod = "<clinit>", injectOnExit = true)
+    @Hook(targetMethod = "<clinit>",injector = "exit")
     public static void clinit(class_315 c) {
         class_315.c = 30;
     }
 
-    //指挥命令相关
     @Hook
     public static void a(class_1101 c, class_945 class_945Var) {
 
@@ -64,10 +62,10 @@ public class CommonHook {
         if (z) {
             arrayList.add(new class_169("-99", class_993.a("menus.settings.option.default", new Object[0]), null));
         }
-        arrayList.add(new class_169("-3", "观战", -1));
+        arrayList.add(new class_169("-3", "锟斤拷战", -1));
 
         for (int i = 0; i < 100; i++) {
-            arrayList.add(new class_169(String.valueOf(i), (i + 1) + " 号 " + (i % 2 == 0 ? "A" : "B") + " 队 ", class_315.g(i % 10)));
+            arrayList.add(new class_169(String.valueOf(i), (i + 1) + " 锟斤拷 " + (i % 2 == 0 ? "A" : "B") + " 锟斤拷 ", class_315.g(i % 10)));
         }
 
         class_182 class_182Var = new class_182(c, arrayList);
@@ -82,7 +80,7 @@ public class CommonHook {
             arrayList.add(new class_169("0", "auto", -1));
         }
         for (int i = 0; i < 100; i++) {
-            arrayList.add(new class_169(String.valueOf(i + 1), class_315.a(i) + " 队 ", class_315.g(i)));
+            arrayList.add(new class_169(String.valueOf(i + 1), class_315.a(i) + " 锟斤拷 ", class_315.g(i)));
         }
         class_182 class_182Var = new class_182(c, arrayList);
         class_182Var.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

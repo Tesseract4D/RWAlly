@@ -83,7 +83,6 @@ public class ClassMetadataReader {
             ClassLoader classLoader = ClassMetadataReader.class.getClassLoader();
             return Class.forName(type.replace('/', '.'), false, classLoader);
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }
@@ -116,7 +115,7 @@ public class ClassMetadataReader {
         String superClassName;
 
         public CheckSuperClassVisitor() {
-            super(Opcodes.ASM5);
+            super(Opcodes.ASM9);
         }
 
         @Override
@@ -133,7 +132,7 @@ public class ClassMetadataReader {
         public boolean found;
 
         public FindMethodClassVisitor(String name, String desc) {
-            super(Opcodes.ASM5);
+            super(Opcodes.ASM9);
             this.targetName = name;
             this.targetDesc = desc;
         }

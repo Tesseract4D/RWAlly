@@ -25,7 +25,7 @@ public class Accessor implements NodeTransformer {
     @Override
     public void transform(ClassNode node) {
         ClassReader cr = new ClassReader(DragonflyTransformer.getClassData(accessor));
-        ClassVisitor cv = new ClassVisitor(Opcodes.ASM5) {
+        ClassVisitor cv = new ClassVisitor(Opcodes.ASM9) {
             @Override
             public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
                 if (name.startsWith("get_")) {

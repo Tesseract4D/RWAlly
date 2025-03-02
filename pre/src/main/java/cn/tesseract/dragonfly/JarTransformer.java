@@ -1,5 +1,7 @@
 package cn.tesseract.dragonfly;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -12,20 +14,33 @@ import java.util.zip.ZipInputStream;
 public class JarTransformer {
     public static File dir = new File(System.getProperty("user.dir"));
 
-    public static void main(String[] args) {
-        File old = new File(dir, "libs/server.jar"),
-                transformed = new File(dir, "libs/server_transformed.jar");
+    public static void main(String[] args) throws IOException {
+        File old = new File(dir, "libs/bak/classes.jar"),
+                inject = new File(dir, "build/libs/dragonfly-1.0-SNAPSHOT-all.jar"),
+                transformed = new File(dir, "libs/classes.jar"),
+                apk = new File(dir, "libs/base.apk");
+
+        apk.delete();
+        transformed.delete();
+        FileUtils.copyFile(new File(dir, "libs/bak/base.apk"), apk);
+
         DragonflyTransformer transformer = new DragonflyTransformer();
         try (JarOutputStream newJar = new JarOutputStream(Files.newOutputStream(transformed.toPath()))) {
             ZipInputStream oldJar = new ZipInputStream(Files.newInputStream(old.toPath()));
+            ZipInputStream injectJar = new ZipInputStream(Files.newInputStream(inject.toPath()));
 
+            boolean transforming = false;
             ZipEntry entry;
-            while ((entry = oldJar.getNextEntry()) != null) {
+            while ((entry = injectJar.getNextEntry()) != null || ((transforming = true) && (entry = oldJar.getNextEntry()) != null)) {
                 String name = entry.getName();
                 newJar.putNextEntry(new JarEntry(name));
-                byte[] data = readEntryBytes(oldJar);
+                byte[] data = readEntryBytes(transforming ? oldJar : injectJar);
                 if (name.endsWith(".class")) {
                     String className = name.substring(0, name.length() - 6);
+                    if (className.endsWith("Hook")) {
+                        transformer.logger.debug("Parsing hooks container " + className);
+                        transformer.registerHookContainer(data);
+                    }
                     data = transformer.transform(className, data);
                 }
                 newJar.write(data);

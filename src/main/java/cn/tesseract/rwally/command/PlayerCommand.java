@@ -12,16 +12,16 @@ public abstract class PlayerCommand extends CommandBase {
     public String processCommand(class_315 sender, String[] args) {
         try {
             if (args.length == 0)
-                return "²ÎÊı²»ÄÜÎª¿Õ£¡";
+                return "å‚æ•°ä¸èƒ½ä¸ºç©ºï¼";
             else {
                 class_315 player = RWHelper.getPlayer(Integer.parseInt(args[0]));
                 if (player == null)
-                    return "¸ÃÍæ¼Ò²»´æÔÚ£¡";
+                    return "è¯¥ç©å®¶ä¸å­˜åœ¨ï¼";
                 else
                     return processCommand(args, player);
             }
         } catch (NumberFormatException e) {
-            return "\"" + args[0] + "\"²»ÊÇÕıÈ·µÄÊı×Ö£¡";
+            return "\"" + args[0] + "\"ä¸æ˜¯æ­£ç¡®çš„æ•°å­—ï¼";
         }
     }
 

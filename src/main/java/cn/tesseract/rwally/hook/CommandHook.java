@@ -1,7 +1,7 @@
 package cn.tesseract.rwally.hook;
 
+import cn.tesseract.dragonfly.asm.Hook;
 import cn.tesseract.rwally.RWHelper;
-import cn.tesseract.rwally.asm.Hook;
 import cn.tesseract.rwally.command.CommandBase;
 import cn.tesseract.rwally.command.SingleDoubleCommand;
 import cn.tesseract.rwally.command.SingleIntegerCommand;

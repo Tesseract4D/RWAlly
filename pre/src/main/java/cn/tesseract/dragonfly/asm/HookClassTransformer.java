@@ -33,6 +33,10 @@ public class HookClassTransformer implements ClassFileTransformer {
         containerParser.parseHooks(className);
     }
 
+    public void registerHookContainer(byte[] bytecode) {
+        containerParser.parseHooks(bytecode);
+    }
+
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         return transform(className.replace('/', '.'), classfileBuffer);
     }
