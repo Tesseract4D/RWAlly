@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.tesseract'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.ow2.asm:asm:9.7.1'
+    implementation 'org.ow2.asm:asm-commons:9.7.1'
+    implementation 'org.ow2.asm:asm-tree:9.7.1'
+    implementation 'commons-io:commons-io:2.17.0'
+}
+
+test {
+    useJUnitPlatform()
+}

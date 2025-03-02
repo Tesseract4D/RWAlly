@@ -3,7 +3,7 @@ plugins {
     id 'com.gradleup.shadow' version '8.3.5'
 }
 
-group = 'cn.tesseract.dragonfly'
+group = 'cn.tesseract'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -15,6 +15,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':pre')
     implementation 'org.ow2.asm:asm:9.7.1'
     implementation 'org.ow2.asm:asm-commons:9.7.1'
     implementation 'org.ow2.asm:asm-tree:9.7.1'
