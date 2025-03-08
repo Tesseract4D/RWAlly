@@ -6,12 +6,14 @@ import cn.tesseract.rwally.accessor.BattleroomAccessor;
 import cn.tesseract.rwally.command.CommandBase;
 import cn.tesseract.rwally.command.SingleDoubleCommand;
 import cn.tesseract.rwally.command.SingleIntegerCommand;
+import cn.tesseract.rwally.util.FileHelper;
 import cn.tesseract.rwally.util.RWHelper;
 import com.corrodinggames.rts.ally.appFramework.MultiplayerBattleroomActivity;
 import com.corrodinggames.rts.ally.game.class_315;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1054;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1101;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class CommandHook {
@@ -22,6 +24,21 @@ public class CommandHook {
             @Override
             public String processCommand(class_315 sender, String[] args) {
                 RWHelper.sendSysMessage(args[0]);
+                return null;
+            }
+        });
+        commands.put("debug", new CommandBase(0, true, "调试指令") {
+
+            @Override
+            public String processCommand(class_315 sender, String[] args) {
+                try {
+                    FileHelper.write("list", Reference.roomBlacklist.blacklistedIds.toString());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                /*for (Object o : RWHelper.getNetworkEngine().aO) {
+                    RWHelper.sendMessage((class_1054) o, "[提示]", "测试");
+                }*/
                 return null;
             }
         });
@@ -60,16 +77,6 @@ public class CommandHook {
             @Override
             public String processCommand(class_315 sender, String[] args) {
                 RWHelper.sync();
-                return null;
-            }
-        });
-        commands.put("debug", new CommandBase(0, true, "调试指令") {
-
-            @Override
-            public String processCommand(class_315 sender, String[] args) {
-                for (Object o : RWHelper.getNetworkEngine().aO) {
-                    RWHelper.sendMessage((class_1054) o, "[提示]", "测试");
-                }
                 return null;
             }
         });

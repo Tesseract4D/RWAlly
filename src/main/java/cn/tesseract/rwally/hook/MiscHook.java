@@ -4,18 +4,20 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import cn.tesseract.dragonfly.asm.Hook;
 import cn.tesseract.dragonfly.asm.ReturnCondition;
+import cn.tesseract.rwally.DefaultBlacklist;
 import cn.tesseract.rwally.Reference;
 import com.corrodinggames.rts.ally.appFramework.MainMenuActivity;
 import com.corrodinggames.rts.ally.game.class_315;
 import com.corrodinggames.rts.ally.gameFramework.m.class_1224;
+
+import java.util.List;
 
 public class MiscHook {
 
     @Hook
     public static void onCreate(MainMenuActivity c, Bundle bundle) {
         Reference.roomBlacklist.read();
-        Reference.roomBlacklist.instance.ids.add("aaa");
-        Reference.roomBlacklist.save();
+        Reference.roomBlacklist.blacklistedIds.addAll(List.of(DefaultBlacklist.list.split(",")));
     }
 
     @Hook(targetMethod = "<clinit>", injector = "exit")

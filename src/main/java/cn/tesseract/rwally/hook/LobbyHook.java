@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.tesseract.dragonfly.asm.Hook;
 import cn.tesseract.dragonfly.asm.ReturnCondition;
+import cn.tesseract.rwally.Reference;
 import com.corrodinggames.rts.ally.appFramework.*;
 import com.corrodinggames.rts.ally.game.units.custom.logicBooleans.VariableScope;
 import com.corrodinggames.rts.ally.gameFramework.class_340;
@@ -27,9 +29,9 @@ public class LobbyHook {
         String str2;
         class_340 t = class_340.t();
         class_340.a("lobby", "refreshServerListRunnable");
-        String a2 = class_993.a("menus.lobby.gameState.battleroom");
-        String a3 = class_993.a("menus.lobby.gameState.ingame");
-        String a4 = class_993.a("menus.lobby.gameState.chat");
+        String a2 = class_993.a("menus.lobby.gameState.battleroom", new Object[0]);
+        String a3 = class_993.a("menus.lobby.gameState.ingame", new Object[0]);
+        String a4 = class_993.a("menus.lobby.gameState.chat", new Object[0]);
         class_1331 class_1331Var = c.a.activityRecycledTextViews;
         for (int childCount = c.a.gameListTable.getChildCount() - 1; childCount >= 0; childCount--) {
             View childAt = c.a.gameListTable.getChildAt(childCount);
@@ -51,6 +53,8 @@ public class LobbyHook {
         int i = 0;
         while (it.hasNext()) {
             class_1041 room = it.next();
+            if (Reference.roomBlacklist.isBlacklisted(room.b))
+                continue;
             i++;
             if (c.a.showLimitedRows && i > 35) {
                 TableRow tableRow2 = new TableRow(c.a);
@@ -133,13 +137,13 @@ public class LobbyHook {
     @Hook(returnCondition = ReturnCondition.ALWAYS)
     public static void onClick(class_185 c, View view) {
         class_1041 room = c.a;
-        String var4 = room.e;
+        String link = room.e;
         StringBuilder message = new StringBuilder();
 
-        if (var4 != null) {
+        if (link != null) {
             String var2 = room.f;
             message.append(var2 != null ? var2.replace("\\n", "\n") : "");
-            message.append("\n").append(message).append("地址: ").append(var4).append("\n");
+            message.append("\n").append(message).append("地址: ").append(link).append("\n");
         } else {
             if (room.a) {
                 message.append("局域网: ").append(room.d).append(":").append(room.g).append("\n");
@@ -173,7 +177,9 @@ public class LobbyHook {
                 .setMessage(message.toString())
                 .setNegativeButton("取消", (DialogInterface.OnClickListener) new class_181(c))
                 .setNeutralButton("加入黑名单", (d, i) -> {
-                    //Toast.makeText(c.b.a, c.a.b, Toast.LENGTH_LONG).show();
+                    Reference.roomBlacklist.blacklist(c.a.n, c.a.q, c.a.b);
+                    MultiplayerLobbyActivity.refreshServerList();
+                    Toast.makeText(c.b.a, "已加入黑名单", Toast.LENGTH_SHORT).show();
                 });
 
         if (c.a.a()) {
