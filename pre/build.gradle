@@ -23,7 +23,7 @@ test {
 }
 
 tasks.register('transform', JavaExec) {
-    main = 'cn.tesseract.dragonfly.JarTransformer'
+    main = 'cn.tesseract.dragonfly.BuildTransformer'
     workingDir projectDir.parentFile
     classpath = sourceSets.main.runtimeClasspath
 }

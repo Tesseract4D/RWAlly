@@ -15,9 +15,11 @@ repositories {
 }
 
 dependencies {
-    implementation project(':pre')
+    compileOnly project(':pre')
     compileOnly files("libs/android.jar")
-    compileOnly files("libs/bak/classes.jar")
+    compileOnly files("libs/bak/classes_transformed.jar")
+    implementation 'com.google.code.gson:gson:2.12.1'
+
 }
 
 tasks.register('jar2dex', Exec) {

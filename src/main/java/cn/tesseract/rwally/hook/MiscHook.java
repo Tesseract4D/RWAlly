@@ -2,12 +2,11 @@ package cn.tesseract.rwally.hook;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.widget.Spinner;
 import cn.tesseract.dragonfly.asm.Hook;
 import cn.tesseract.dragonfly.asm.ReturnCondition;
-import cn.tesseract.rwally.reflect.MethodAccessor;
+import cn.tesseract.rwally.accessor.C1002Accessor;
 import com.corrodinggames.rts.ally.appFramework.MainMenuActivity;
 import com.corrodinggames.rts.ally.appFramework.MultiplayerBattleroomActivity;
 import com.corrodinggames.rts.ally.appFramework.class_169;
@@ -82,9 +81,6 @@ public class MiscHook {
         return t == -3 ? "S" : String.valueOf(t + 1);
     }
 
-    static MethodAccessor class_1002_a = new MethodAccessor(class_1002.class, "a", int.class, int.class, int.class, String.class, String.class, Paint.class, float.class);
-
-    //五编队
     @Hook(returnCondition = ReturnCondition.ALWAYS)
     public static void f(class_1002 c, float var1) {
         float var2 = c.b.cg;
@@ -161,16 +157,17 @@ public class MiscHook {
                         c.a.a();
                         c.i.reset();
                         c.i.setColor(Color.argb(120, 200, 0, 0));
+                        C1002Accessor accessor = (C1002Accessor) c;
                         if (var13.b < 50.0F) {
                             var2 = var13.b / 50.0F;
                             c.i.setColor(Color.argb((int) (150.0F + 40.0F * var2), 0, 200, 0));
-                            class_1002_a.invoke(c, var4, var6, height, "选择", "(长按...)", c.i, var2);
+                            accessor.invoke_a(var4, var6, height, "选择", "(长按...)", c.i, var2);
                         } else if (var13.b < 100.0F) {
                             var2 = (var13.b - 50.0F) / 50.0F;
                             c.i.setColor(Color.argb((int) (150.0F + 40.0F * var2), 200, 0, 0));
-                            class_1002_a.invoke(c, var4, var6, height, "添加", "(长按...)", c.i, var2);
+                            accessor.invoke_a(var4, var6, height, "添加", "(长按...)", c.i, var2);
                         } else {
-                            class_1002_a.invoke(c, var4, var6, height, "替换", "", c.i, 0.0F);
+                            accessor.invoke_a(var4, var6, height, "替换", "", c.i, 0.0F);
                             var2 = 1.0F;
                         }
 

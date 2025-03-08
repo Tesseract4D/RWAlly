@@ -1,12 +1,12 @@
 package cn.tesseract.rwally.hook;
 
 import cn.tesseract.dragonfly.asm.Hook;
-import cn.tesseract.rwally.util.RWHelper;
 import cn.tesseract.rwally.Reference;
+import cn.tesseract.rwally.accessor.BattleroomAccessor;
 import cn.tesseract.rwally.command.CommandBase;
 import cn.tesseract.rwally.command.SingleDoubleCommand;
 import cn.tesseract.rwally.command.SingleIntegerCommand;
-import cn.tesseract.rwally.reflect.MethodAccessor;
+import cn.tesseract.rwally.util.RWHelper;
 import com.corrodinggames.rts.ally.appFramework.MultiplayerBattleroomActivity;
 import com.corrodinggames.rts.ally.game.class_315;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1054;
@@ -48,12 +48,10 @@ public class CommandHook {
             }
         });
         commands.put("in", new SingleDoubleCommand(1, true, "设置收入倍数") {
-            static final MethodAccessor refreshServerInfo = new MethodAccessor(MultiplayerBattleroomActivity.class, "refreshServerInfo");
-
             @Override
             public String processCommand(double n) {
                 RWHelper.getNetworkEngine().aA.h = (float) n;
-                refreshServerInfo.invoke(MultiplayerBattleroomActivity.lastLoaded);
+                ((BattleroomAccessor) MultiplayerBattleroomActivity.lastLoaded).invoke_refreshServerInfo();
                 RWHelper.sync();
                 return "收入倍率已设为 " + n + " ！";
             }

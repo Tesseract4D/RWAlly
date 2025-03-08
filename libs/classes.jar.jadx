@@ -92,10 +92,87 @@
       "type": "class",
       "tabPath": "com.corrodinggames.rts.ally.gameFramework.j.class_1101",
       "subPath": "java",
-      "caret": 31015,
+      "caret": 161676,
       "view": {
         "x": 0,
-        "y": 14442
+        "y": 57349
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.appFramework.MultiplayerLobbyActivity",
+      "subPath": "java",
+      "caret": 13933,
+      "view": {
+        "x": 0,
+        "y": 4522
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.game.b.class_318",
+      "subPath": "java",
+      "caret": 71746,
+      "view": {
+        "x": 0,
+        "y": 23782
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.n.class_1296",
+      "subPath": "java",
+      "caret": 20325,
+      "view": {
+        "x": 0,
+        "y": 7097
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.n.class_1288",
+      "subPath": "java",
+      "caret": 7231,
+      "view": {
+        "x": 0,
+        "y": 1539
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.appFramework.class_185",
+      "subPath": "java",
+      "caret": 432,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.j.class_1041",
+      "subPath": "java",
+      "caret": 396,
+      "view": {
+        "x": 0,
+        "y": 167
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.appFramework.class_190",
+      "subPath": "java",
+      "caret": 1018,
+      "view": {
+        "x": 0,
+        "y": 144
       },
       "active": true
     }
@@ -103,6 +180,10 @@
   "cacheDir": "C:\\Users\\DELL\\AppData\\Local\\skylot\\jadx\\cache\\projects\\classes-3cd57e41907cbba465208c753ac71c8c",
   "enableLiveReload": false,
   "searchHistory": [
+    "190",
+    "User:",
+    "1288",
+    "1296",
     "1101",
     "1042",
     "598",
@@ -128,8 +209,7 @@
     "purp",
     "999",
     "00ff00",
-    "green",
-    "crashes.txt"
+    "green"
   ],
   "pluginOptions": {}
 }

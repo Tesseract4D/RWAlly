@@ -1,10 +1,11 @@
 package cn.tesseract.dragonfly;
 
-import org.apache.commons.io.FileUtils;
+import org.objectweb.asm.tree.MethodNode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
@@ -14,33 +15,32 @@ import java.util.zip.ZipInputStream;
 public class JarTransformer {
     public static File dir = new File(System.getProperty("user.dir"));
 
-    public static void main(String[] args) throws IOException {
-        File old = new File(dir, "libs/bak/classes.jar"),
-                inject = new File(dir, "build/libs/rwally-1.0-SNAPSHOT-all.jar"),
-                transformed = new File(dir, "libs/classes.jar"),
-                apk = new File(dir, "libs/base.apk");
+    public static void main(String[] args) {
+        File jar = new File(dir, "libs/bak/classes.jar"),
+                transformed = new File(dir, "libs/bak/classes_transformed.jar");
 
-        apk.delete();
         transformed.delete();
-        FileUtils.copyFile(new File(dir, "libs/bak/base.apk"), apk);
 
         DragonflyTransformer transformer = new DragonflyTransformer();
-        try (JarOutputStream newJar = new JarOutputStream(Files.newOutputStream(transformed.toPath()))) {
-            ZipInputStream oldJar = new ZipInputStream(Files.newInputStream(old.toPath()));
-            ZipInputStream injectJar = new ZipInputStream(Files.newInputStream(inject.toPath()));
 
-            boolean transforming = false;
+
+        try (JarOutputStream newJar = new JarOutputStream(Files.newOutputStream(transformed.toPath()))) {
+            ZipInputStream oldJar = new ZipInputStream(Files.newInputStream(jar.toPath()));
+
             ZipEntry entry;
-            while ((entry = injectJar.getNextEntry()) != null || ((transforming = true) && (entry = oldJar.getNextEntry()) != null)) {
+            while ((entry = oldJar.getNextEntry()) != null) {
                 String name = entry.getName();
                 newJar.putNextEntry(new JarEntry(name));
-                byte[] data = readEntryBytes(transforming ? oldJar : injectJar);
+                byte[] data = readEntryBytes(oldJar);
                 if (name.endsWith(".class")) {
                     String className = name.substring(0, name.length() - 6);
-                    if (className.endsWith("Hook")) {
-                        transformer.logger.debug("Parsing hooks container " + className);
-                        transformer.registerHookContainer(data);
-                    }else if(className.startsWith("Accessor")){}
+
+                    transformer.registerNodeTransformer(className, node -> {
+                        node.access = ~(~node.access | Modifier.FINAL | Modifier.PRIVATE | Modifier.PROTECTED) | Modifier.PUBLIC;
+                        for (MethodNode method : node.methods)
+                            if (method.name.equals("<init>"))
+                                method.access = ~(~method.access | Modifier.PRIVATE | Modifier.PROTECTED) | Modifier.PUBLIC;
+                    });
 
                     data = transformer.transform(className, data);
                 }
