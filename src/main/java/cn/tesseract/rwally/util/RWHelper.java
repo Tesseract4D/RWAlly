@@ -26,7 +26,6 @@ public class RWHelper {
 
     public static void sendSysMessage(String str, class_1054 conn) {
         ((NetworkAccessor) getNetworkEngine()).invoke_a(str, conn);
-        //class_1101_a.invoke(getNetworkEngine(), str, conn);
     }
 
     public static class_315 getPlayer(int n) {
