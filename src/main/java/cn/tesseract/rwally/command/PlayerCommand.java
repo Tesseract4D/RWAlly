@@ -2,6 +2,7 @@ package cn.tesseract.rwally.command;
 
 import cn.tesseract.rwally.util.RWHelper;
 import com.corrodinggames.rts.ally.game.class_315;
+import com.corrodinggames.rts.ally.gameFramework.j.class_1054;
 
 public abstract class PlayerCommand extends CommandBase {
     public PlayerCommand(int args, boolean requireOp, String description) {
@@ -9,7 +10,7 @@ public abstract class PlayerCommand extends CommandBase {
     }
 
     @Override
-    public String processCommand(class_315 sender, String[] args) {
+    public String processCommand(class_1054 sender, String[] args) {
         try {
             if (args.length == 0)
                 return "参数不能为空！";

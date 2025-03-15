@@ -14,15 +14,19 @@ public class FileHelper {
     }
 
     public static boolean exists(String path) {
-        InputStream is = getInputStream(path);
-        if (is != null) {
-            try {
-                is.close();
-            } catch (IOException e) {
-            }
-            return true;
-        }
-        return false;
+        return class_916.i("/SD/rustedWarfare/" + path);
+    }
+
+    public static boolean dirExists(String path) {
+        return class_916.f("/SD/rustedWarfare/" + path);
+    }
+
+    public static boolean mkdir(String path) {
+        return class_916.m("/SD/rustedWarfare/" + path);
+    }
+
+    public static boolean renameFile(String from, String to) {
+        return class_916.a(from, "/SD/rustedWarfare/", to);
     }
 
     public static String read(String path) throws IOException {

@@ -1,6 +1,6 @@
 package cn.tesseract.rwally.command;
 
-import com.corrodinggames.rts.ally.game.class_315;
+import com.corrodinggames.rts.ally.gameFramework.j.class_1054;
 
 public abstract class CommandBase {
     public int args;
@@ -13,5 +13,5 @@ public abstract class CommandBase {
         this.description = description;
     }
 
-    public abstract String processCommand(class_315 sender, String[] args);
+    public abstract String processCommand(class_1054 sender, String[] args);
 }

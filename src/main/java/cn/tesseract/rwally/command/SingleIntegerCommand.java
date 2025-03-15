@@ -1,13 +1,13 @@
 package cn.tesseract.rwally.command;
 
-import com.corrodinggames.rts.ally.game.class_315;
+import com.corrodinggames.rts.ally.gameFramework.j.class_1054;
 
 public abstract class SingleIntegerCommand extends CommandBase {
     public SingleIntegerCommand(int args, boolean requireOp, String description) {
         super(args, requireOp, description);
     }
 
-    public String processCommand(class_315 sender, String[] args) {
+    public String processCommand(class_1054 sender, String[] args) {
         try {
             if (args.length == 0)
                 return "参数不能为空！";

@@ -18,6 +18,7 @@ dependencies {
     compileOnly project(':pre')
     compileOnly files("libs/android.jar")
     compileOnly files("libs/bak/classes_transformed.jar")
+    implementation 'org.mozilla:rhino:1.7.15'
     implementation 'com.google.code.gson:gson:2.11.0'
 }
 

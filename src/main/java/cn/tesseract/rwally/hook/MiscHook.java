@@ -2,22 +2,25 @@ package cn.tesseract.rwally.hook;
 
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.Toast;
 import cn.tesseract.dragonfly.asm.Hook;
 import cn.tesseract.dragonfly.asm.ReturnCondition;
-import cn.tesseract.rwally.DefaultBlacklist;
 import cn.tesseract.rwally.Reference;
+import cn.tesseract.rwally.util.RWHelper;
 import com.corrodinggames.rts.ally.appFramework.MainMenuActivity;
 import com.corrodinggames.rts.ally.game.class_315;
 import com.corrodinggames.rts.ally.gameFramework.m.class_1224;
-
-import java.util.List;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 public class MiscHook {
-
     @Hook
     public static void onCreate(MainMenuActivity c, Bundle bundle) {
         Reference.roomBlacklist.read();
-        Reference.roomBlacklist.blacklistedIds.addAll(List.of(DefaultBlacklist.list.split(",")));
     }
 
     @Hook(targetMethod = "<clinit>", injector = "exit")
