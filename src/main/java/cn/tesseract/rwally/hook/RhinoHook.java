@@ -3,12 +3,17 @@ package cn.tesseract.rwally.hook;
 import android.os.Bundle;
 import android.widget.Toast;
 import cn.tesseract.dragonfly.asm.Hook;
+import cn.tesseract.dragonfly.asm.ReturnCondition;
+import cn.tesseract.rwally.util.CallbackInfo;
 import cn.tesseract.rwally.util.FileHelper;
 import cn.tesseract.rwally.util.LogHelper;
 import cn.tesseract.rwally.util.RWHelper;
 import com.corrodinggames.rts.ally.appFramework.MainMenuActivity;
+import com.corrodinggames.rts.ally.appFramework.MultiplayerBattleroomActivity;
 import com.corrodinggames.rts.ally.game.class_315;
 import com.corrodinggames.rts.ally.game.class_416;
+import com.corrodinggames.rts.ally.gameFramework.class_945;
+import com.corrodinggames.rts.ally.gameFramework.j.class_1033;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1054;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1101;
 import org.mozilla.javascript.Context;
@@ -38,7 +43,7 @@ public class RhinoHook {
                 try {
                     func.call(CONTEXT, scope, scope, args);
                 } catch (Throwable e) {
-                    RWHelper.sendSysMessage("在执行 " + id + " 时发生错误，日志保存在 rwally.log 中!");
+                    RWHelper.message("在执行 " + id + " 时发生错误，日志保存在 rwally.log 中!");
                     LogHelper.log(e.toString());
                 }
             }
@@ -64,9 +69,27 @@ public class RhinoHook {
         call("onStartGame");
     }
 
-    @Hook(targetMethod = "s", injector = "exit")
-    public static void onSwitchMap(class_1101 c) {
-        call("onSwitchMap", c.aA.b);
+    private static String lastMap;
+
+    @Hook(targetMethod = "readInterfaceIntoNetworkSettings", injector = "simple:values")
+    public static void onSwitchMap(MultiplayerBattleroomActivity c) {
+        String map = RWHelper.getNetworkEngine().aA.b;
+        if (!map.equals(lastMap)) {
+            call("onSwitchMap", map);
+            lastMap = map;
+        }
+    }
+
+    @Hook(targetMethod = "a", returnCondition = ReturnCondition.ON_TRUE)
+    public static boolean onAction(class_1101 c, class_945 action) {
+        CallbackInfo ci = new CallbackInfo();
+        call("onAction", action, ci);
+        return ci.isPrevented();
+    }
+
+    @Hook(targetMethod = "a", injector = "simple:t,0")
+    public static void onPacket(class_1101 c, class_1033 packet) {
+        call("onPacket", packet);
     }
 
     @Hook

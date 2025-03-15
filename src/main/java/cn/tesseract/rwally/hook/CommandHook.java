@@ -33,7 +33,7 @@ public class CommandHook {
         register("echo", new CommandBase(1, true, "发送信息，这是结盟版加入的第一个指令") {
             @Override
             public String processCommand(class_1054 sender, String[] args) {
-                RWHelper.sendSysMessage(args[0]);
+                RWHelper.sendMessage(args[0], sender);
                 return null;
             }
         });
@@ -44,10 +44,7 @@ public class CommandHook {
                 commands.forEach((name, command) -> {
                     help.append("\n").append(".").append(name).append(command.requireOp ? " (需要权限)" : "").append(" 用法: ").append(command.description);
                 });
-                if (sender == null)
-                    RWHelper.sendSysMessage(help.toString());
-                else
-                    RWHelper.sendMessage(sender, "", help.toString());
+                RWHelper.sendMessage(help.toString(), sender);
                 return null;
             }
         });
@@ -95,7 +92,7 @@ public class CommandHook {
         register("max", new SingleIntegerCommand(1, true, "设置最大人数") {
             @Override
             public String processCommand(int n) {
-                n = Math.min(n, 10);
+                n = Math.max(n, 10);
                 RWHelper.setMaxPlayer(n);
                 return "最大人数已设置为 " + n + " 人！";
             }
@@ -135,10 +132,10 @@ public class CommandHook {
             String[] arr = msg.substring(1).split(" ", 2);
             CommandBase cmd;
             if ((cmd = commands.get(arr[0])) != null) {
-                if (cmd.requireOp && !isHost) RWHelper.sendSysMessage("仅房主可使用该指令！", conn);
+                if (cmd.requireOp && !isHost) RWHelper.sendMessage("仅房主可使用该指令！", conn);
                 else {
                     String r = cmd.processCommand(conn, arr.length == 1 ? new String[0] : arr[1].split(" ", cmd.args));
-                    if (r != null && !r.isEmpty()) RWHelper.sendSysMessage(r, conn);
+                    if (r != null && !r.isEmpty()) RWHelper.sendMessage(r, conn);
                 }
             }
         }

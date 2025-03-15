@@ -23,7 +23,7 @@ public class JSCommand extends CommandBase {
         try {
             result = String.valueOf(func.call(RhinoHook.CONTEXT, scope, scope, args));
         } catch (Throwable e) {
-            RWHelper.sendSysMessage("在执行 " + owner + " 时发生错误: " + e);
+            RWHelper.message("在执行 " + owner + " 时发生错误: " + e);
         }
         return result;
     }
