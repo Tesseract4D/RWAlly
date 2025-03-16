@@ -2,6 +2,8 @@ package cn.tesseract.dragonfly;
 
 import cn.tesseract.dragonfly.asm.Accessor;
 import org.apache.commons.io.FileUtils;
+import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MethodNode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,6 +28,20 @@ public class BuildTransformer {
         FileUtils.copyFile(new File(dir, "libs/bak/base.apk"), apk);
 
         DragonflyTransformer transformer = new DragonflyTransformer();
+        transformer.registerNodeTransformer("com.corrodinggames.rts.ally.gameFramework.j.class_1101", node -> {
+            for (MethodNode method : node.methods) {
+                if (method.name.equals("a") && method.desc.equals("(Lcom/corrodinggames/rts/ally/gameFramework/j/class_1033;)V")) {
+                    for (int i = 0; i < method.instructions.size(); i++) {
+                        if (method.instructions.get(i) instanceof MethodInsnNode insn) {
+                            if (insn.name.equals("d") && insn.desc.equals("(Lcom/corrodinggames/rts/ally/gameFramework/j/class_1054;)V")) {
+                                insn.name = "onJoin";
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
         try (JarOutputStream newJar = new JarOutputStream(Files.newOutputStream(transformed.toPath()))) {
             ZipInputStream oldJar = new ZipInputStream(Files.newInputStream(old.toPath()));
             ZipInputStream injectJar = new ZipInputStream(Files.newInputStream(inject.toPath()));

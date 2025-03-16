@@ -1,6 +1,7 @@
 package cn.tesseract.rwally.hook;
 
 import android.os.Bundle;
+import android.util.Pair;
 import android.widget.Toast;
 import cn.tesseract.dragonfly.asm.Hook;
 import cn.tesseract.dragonfly.asm.ReturnCondition;
@@ -12,9 +13,9 @@ import com.corrodinggames.rts.ally.appFramework.MainMenuActivity;
 import com.corrodinggames.rts.ally.appFramework.MultiplayerBattleroomActivity;
 import com.corrodinggames.rts.ally.game.class_315;
 import com.corrodinggames.rts.ally.game.class_416;
+import com.corrodinggames.rts.ally.gameFramework.class_340;
 import com.corrodinggames.rts.ally.gameFramework.class_945;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1033;
-import com.corrodinggames.rts.ally.gameFramework.j.class_1044;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1054;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1101;
 import org.mozilla.javascript.Context;
@@ -22,12 +23,35 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RhinoHook {
     public static Context CONTEXT = Context.enter();
     public static HashMap<String, Scriptable> SCOPE_MGR = new HashMap<>();
+    private static ArrayList<Pair<String, Object[]>> TASKS = new ArrayList<>();
     private static String currentScript;
+
+    static {
+        new Thread(() -> {
+            Context taskContext = Context.enter();
+            while (true) {
+                for (Pair<String, Object[]> task : TASKS) {
+                    SCOPE_MGR.forEach((id, scope) -> {
+                        if (scope.get(task.first, scope) instanceof Function func) {
+                            try {
+                                func.call(taskContext, scope, scope, task.second);
+                            } catch (Throwable e) {
+                                RWHelper.message("在执行 " + id + " 时发生错误，日志保存在 rwally.log 中!");
+                                LogHelper.log(class_340.a(e));
+                            }
+                        }
+                    });
+                }
+                TASKS.clear();
+            }
+        }).start();
+    }
 
     public static Scriptable getScope(String id) {
         Scriptable scope = SCOPE_MGR.get(id);
@@ -39,16 +63,7 @@ public class RhinoHook {
     }
 
     public static void call(String name, Object... args) {
-        SCOPE_MGR.forEach((id, scope) -> {
-            if (scope.get(name, scope) instanceof Function func) {
-                try {
-                    func.call(CONTEXT, scope, scope, args);
-                } catch (Throwable e) {
-                    RWHelper.message("在执行 " + id + " 时发生错误，日志保存在 rwally.log 中!");
-                    LogHelper.log(e.toString());
-                }
-            }
-        });
+        TASKS.add(new Pair<>(name, args));
     }
 
     public static String getCurrentScript() {
@@ -98,10 +113,9 @@ public class RhinoHook {
         call("onPacket", packet);
     }
 
-    @Hook(targetMethod = "a", injector = "simple:a")
-    public static void onJoin(class_1044 c, @Hook.LocalVariable(5) class_1033 packet) {
-        if (packet.b == 110 && packet.a.A != null)
-            call("onJoin", packet.a);
+    @Hook(createMethod = true)
+    public static void onJoin(class_1101 c, class_1054 conn) {
+        call("onJoin", conn);
     }
 
     @Hook

@@ -23,9 +23,6 @@ public class DragonflyTransformer extends HookClassTransformer {
     public final HashMap<String, List<NodeTransformer>> transformerMap = new HashMap<>();
     public static boolean dumpTransformedClass = true;
 
-    static {
-    }
-
     @Override
     public byte[] transform(String className, byte[] classBytes) {
         className = className.replace('/', '.');

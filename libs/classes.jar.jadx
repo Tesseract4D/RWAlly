@@ -109,10 +109,10 @@
       "type": "class",
       "tabPath": "com.corrodinggames.rts.ally.gameFramework.j.class_1072",
       "subPath": "java",
-      "caret": 3252,
+      "caret": 4932,
       "view": {
         "x": 0,
-        "y": 1037
+        "y": 1217
       },
       "active": false
     },
@@ -120,17 +120,96 @@
       "type": "class",
       "tabPath": "com.corrodinggames.rts.ally.gameFramework.j.class_1084",
       "subPath": "java",
-      "caret": 10708,
+      "caret": 11491,
       "view": {
         "x": 0,
-        "y": 3955
+        "y": 4255
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.j.class_1041",
+      "subPath": "java",
+      "caret": 374,
+      "view": {
+        "x": 0,
+        "y": 152
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.j.class_1101",
+      "subPath": "java",
+      "caret": 84830,
+      "view": {
+        "x": 31,
+        "y": 31172
       },
       "active": true
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.j.class_1042",
+      "subPath": "java",
+      "caret": 1760,
+      "view": {
+        "x": 0,
+        "y": 782
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.class_340",
+      "subPath": "java",
+      "caret": 38048,
+      "view": {
+        "x": 0,
+        "y": 19150
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.game.class_416",
+      "subPath": "java",
+      "caret": 57986,
+      "view": {
+        "x": 0,
+        "y": 18152
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.class_992",
+      "subPath": "java",
+      "caret": 3443,
+      "view": {
+        "x": 0,
+        "y": 757
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.appFramework.MultiplayerBattleroomActivity",
+      "subPath": "java",
+      "caret": 16391,
+      "view": {
+        "x": 0,
+        "y": 4990
+      },
+      "active": false
     }
   ],
   "cacheDir": "C:\\Users\\DELL\\AppData\\Local\\skylot\\jadx\\cache\\projects\\classes-3cd57e41907cbba465208c753ac71c8c",
   "enableLiveReload": false,
   "searchHistory": [
+    "case 110",
+    "crashes",
     "-t ",
     "-t",
     "[TEAM]",
@@ -146,7 +225,6 @@
     "defaultHttpC",
     "190",
     "Selected folder",
-    "crashes",
     "export",
     "1295",
     "maps",
@@ -159,8 +237,7 @@
     "598",
     "141",
     "[TEAM",
-    "resync",
-    "income"
+    "resync"
   ],
   "pluginOptions": {}
 }
