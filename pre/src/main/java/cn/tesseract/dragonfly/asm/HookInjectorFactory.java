@@ -78,10 +78,10 @@ public abstract class HookInjectorFactory {
 
                     @Override
                     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
+                        super.visitMethodInsn(opcode, owner, name, desc, itf);
                         if (method.equals(name))
                             if (index != -1 && (index == -2 || index-- == 0))
                                 visitHook();
-                        super.visitMethodInsn(opcode, owner, name, desc, itf);
                     }
                 };
             }

@@ -26,8 +26,12 @@ public class RWHelper {
         sendMessage(String.valueOf(str), null);
     }
 
-    public static void sendMessage(Object str) {
+    public static void sendChatMessage(Object str) {
         getNetworkEngine().k(String.valueOf(str));
+    }
+
+    public static void sendMessage(Object str) {
+        getNetworkEngine().h(String.valueOf(str));
     }
 
     public static void sendMessage(String str, class_1054 conn) {

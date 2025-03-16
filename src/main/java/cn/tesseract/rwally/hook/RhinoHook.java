@@ -14,6 +14,7 @@ import com.corrodinggames.rts.ally.game.class_315;
 import com.corrodinggames.rts.ally.game.class_416;
 import com.corrodinggames.rts.ally.gameFramework.class_945;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1033;
+import com.corrodinggames.rts.ally.gameFramework.j.class_1044;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1054;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1101;
 import org.mozilla.javascript.Context;
@@ -59,6 +60,11 @@ public class RhinoHook {
         call("onChat", player, msg);
     }
 
+    @Hook(targetMethod = "a", injector = "simple:c,0")
+    public static void onDisconnect(class_1054 c, boolean z, boolean z2, String str) {
+        call("onDisconnect", c);
+    }
+
     @Hook(targetMethod = "b", injector = "exit")
     public static void onTick(class_416 c, float f) {
         call("onTick", RWHelper.getGameEngine().bv);
@@ -92,13 +98,19 @@ public class RhinoHook {
         call("onPacket", packet);
     }
 
+    @Hook(targetMethod = "a", injector = "simple:a")
+    public static void onJoin(class_1044 c, @Hook.LocalVariable(5) class_1033 packet) {
+        if (packet.b == 110 && packet.a.A != null)
+            call("onJoin", packet.a);
+    }
+
     @Hook
     public static void onCreate(MainMenuActivity c, Bundle bundle) {
         CONTEXT.setOptimizationLevel(-1);
 
-        if (!FileHelper.dirExists("js"))
-            FileHelper.mkdir("js");
-        String[] scripts = FileHelper.listFiles("js");
+        if (!FileHelper.dirExists("scripts"))
+            FileHelper.mkdir("scripts");
+        String[] scripts = FileHelper.listFiles("scripts");
         for (String script : scripts) {
             int i = script.indexOf('/');
             if (i != -1)
@@ -106,7 +118,9 @@ public class RhinoHook {
             if (script.endsWith(".js"))
                 try {
                     currentScript = script;
-                    CONTEXT.evaluateReader(getScope(script), new InputStreamReader(FileHelper.getInputStream("js/" + script)), script, 0, null);
+                    Scriptable scope = getScope(script);
+                    scope.put("id", scope, script);
+                    CONTEXT.evaluateReader(scope, new InputStreamReader(FileHelper.getInputStream("scripts/" + script)), script, 0, null);
                 } catch (Throwable e) {
                     Toast.makeText(c, "在加载 " + script + " 时发生错误，日志保存在 rwally.log 中!", Toast.LENGTH_LONG).show();
                     LogHelper.log(e.toString());

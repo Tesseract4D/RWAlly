@@ -3,7 +3,7 @@ package cn.tesseract.rwally.hook;
 import android.graphics.Color;
 import cn.tesseract.dragonfly.asm.Hook;
 import cn.tesseract.dragonfly.asm.ReturnCondition;
-import cn.tesseract.rwally.accessor.C1002Accessor;
+import cn.tesseract.rwally.accessor.InGameGuiAccessor;
 import com.corrodinggames.rts.ally.game.units.class_415;
 import com.corrodinggames.rts.ally.gameFramework.class_328;
 import com.corrodinggames.rts.ally.gameFramework.class_998;
@@ -14,6 +14,8 @@ import com.corrodinggames.rts.ally.gameFramework.f.class_960;
 import java.util.ArrayList;
 
 public class UnitGroupsHook {
+    public static int EXTRA_SLOTS = 7;
+
     @Hook(returnCondition = ReturnCondition.ALWAYS)
     public static void f(class_1002 c, float var1) {
         float var2 = c.b.cg;
@@ -21,7 +23,7 @@ public class UnitGroupsHook {
         int var4 = (int) (c.b.ci - c.b.cn + 10.0F);
         int width = (int) (c.b.cn - 20.0F) / 3;
         int height = width - 5;
-        var4 -= width * 2;
+        var4 -= width * EXTRA_SLOTS;
 
         int var5;
         for (int var3 = 0; var3 < c.aA.size(); var4 = var5) {
@@ -65,7 +67,7 @@ public class UnitGroupsHook {
 
             var5 = var4;
             if (c.b.bN.showUnitGroups) {
-                if (var3 < 5) {
+                if (var3 < (EXTRA_SLOTS + 3)) {
                     String var17;
                     if (var13.a.isEmpty()) {
                         if (c.a.bN) {
@@ -90,7 +92,7 @@ public class UnitGroupsHook {
                         c.a.a();
                         c.i.reset();
                         c.i.setColor(Color.argb(120, 200, 0, 0));
-                        C1002Accessor accessor = (C1002Accessor) c;
+                        InGameGuiAccessor accessor = (InGameGuiAccessor) c;
                         if (var13.b < 50.0F) {
                             var2 = var13.b / 50.0F;
                             c.i.setColor(Color.argb((int) (150.0F + 40.0F * var2), 0, 200, 0));
