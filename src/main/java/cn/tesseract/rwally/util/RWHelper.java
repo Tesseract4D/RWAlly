@@ -22,29 +22,49 @@ public class RWHelper {
         class_315.b(n, true);
     }
 
-    public static void message(Object str) {
-        sendMessage(String.valueOf(str), null);
+    public static void sendTeamMessage(String message, int team) {
+        ConcurrentLinkedQueue<class_1054> connections = getNetworkEngine().aO;
+        for (class_1054 conn : connections) {
+            if (conn.A.s == team)
+                sendMessage(message, conn);
+        }
+        if (getNetworkEngine().A.s == team)
+            sendMessage(message, null);
     }
 
-    public static void sendChatMessage(Object str) {
-        getNetworkEngine().k(String.valueOf(str));
+    public static void sendMessage(String message, int index) {
+        ConcurrentLinkedQueue<class_1054> connections = getNetworkEngine().aO;
+        for (class_1054 conn : connections) {
+            if (conn.A.l == index)
+                sendMessage(message, conn);
+        }
+        if (getNetworkEngine().A.l == index)
+            sendMessage(message, null);
     }
 
-    public static void sendMessage(Object str) {
-        getNetworkEngine().h(String.valueOf(str));
+    public static void message(String message) {
+        sendMessage(message, null);
     }
 
-    public static void sendMessage(String str, class_1054 conn) {
-        ((NetworkAccessor) getNetworkEngine()).invoke_a(str, conn);
+    public static void sendChat(String message) {
+        getNetworkEngine().k(message);
     }
 
-    public static void sendMessage(String msg, String sender, class_1054 conn) {
-        sendMessage(msg, sender, conn, -1);
+    public static void sendMessage(String message) {
+        getNetworkEngine().h(message);
     }
 
-    public static void sendMessage(String msg, String sender, class_1054 conn, int color) {
+    public static void sendMessage(String message, class_1054 conn) {
+        ((NetworkAccessor) getNetworkEngine()).invoke_a(message, conn);
+    }
+
+    public static void sendMessage(String message, String sender, class_1054 conn) {
+        sendMessage(message, sender, conn, -1);
+    }
+
+    public static void sendMessage(String message, String sender, class_1054 conn, int color) {
         class_1042 pk = new class_1042();
-        pk.b(msg);
+        pk.b(message);
         pk.b(3);
         pk.a(sender);
         pk.a(conn);
@@ -52,8 +72,8 @@ public class RWHelper {
         conn.a(pk.a(141));
     }
 
-    public static void receiveMessage(String sender, String msg, int color) {
-        ((NetworkAccessor) getNetworkEngine()).invoke_a(null, color, sender, msg);
+    public static void receiveMessage(String sender, String message, int color) {
+        ((NetworkAccessor) getNetworkEngine()).invoke_a(null, color, sender, message);
     }
 
     public static class_315 getPlayer(int n) {
