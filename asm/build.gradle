@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '8.3.5'
+}
+
+group = 'com.tesseract'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.ow2.asm:asm:9.7.1'
+    implementation 'org.ow2.asm:asm-commons:9.7.1'
+    implementation 'org.ow2.asm:asm-tree:9.7.1'
+    implementation("org.javassist:javassist:3.27.0-GA")
+    implementation 'commons-io:commons-io:2.17.0'
+    compileOnly files("libs/bak/classes.jar")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('transform', JavaExec) {
+    mainClass = 'cn.tesseract.union.BuildTransformer'
+    workingDir projectDir.parentFile
+    classpath = sourceSets.main.runtimeClasspath
+}

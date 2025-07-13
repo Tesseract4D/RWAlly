@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly project(':pre')
+    compileOnly project(':asm')
     compileOnly files("libs/android.jar")
     compileOnly files("libs/bak/classes_transformed.jar")
     implementation 'org.mozilla:rhino:1.7.15'
@@ -33,7 +33,7 @@ tasks.register('buildAPK', Exec) {
 }
 
 tasks.register('signAPK', Exec) {
-    commandLine 'java', '-jar', 'D:\\build-tools\\34.0.0\\lib\\apksigner.jar', 'sign', '--ks', 'dragonfly.jks', '--ks-pass', 'pass:tesseract', '--key-pass', 'pass:tesseract', 'base.apk'
+    commandLine 'java', '-jar', 'D:\\build-tools\\34.0.0\\lib\\apksigner.jar', 'sign', '--ks', 'union.keystore', '--ks-pass', 'pass:rwunion', '--key-pass', 'pass:rwunion', 'base.apk'
     workingDir 'libs'
 }
 
@@ -46,7 +46,7 @@ tasks.register('installAPK', Exec) {
 tasks.register('run') {
     dependsOn shadowJar
     doLast {
-        project(':pre').getTasksByName("transform", false).getAt(0).exec()
+        project(':asm').getTasksByName("transform", false).getAt(0).exec()
         jar2dex.exec()
         buildAPK.exec()
         signAPK.exec()
