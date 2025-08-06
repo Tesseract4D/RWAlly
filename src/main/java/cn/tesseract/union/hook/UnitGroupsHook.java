@@ -14,7 +14,8 @@ import com.corrodinggames.rts.union.gameFramework.f.class_961;
 import java.util.ArrayList;
 
 public class UnitGroupsHook {
-    public static int EXTRA_SLOTS = 4;
+    public static final int EXTRA_SLOTS = 7;
+    public static final float DELAY = 25;
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
     public static void method_2383(class_908 c, float var1) {
@@ -92,12 +93,12 @@ public class UnitGroupsHook {
                         c.field_5216.reset();
                         c.field_5216.setColor(Color.argb(120, 200, 0, 0));
                         InGameGuiAccessor accessor = (InGameGuiAccessor) c;
-                        if (var13.field_5386 < 50.0F) {
-                            var2 = var13.field_5386 / 50.0F;
+                        if (var13.field_5386 < DELAY) {
+                            var2 = var13.field_5386 / DELAY;
                             c.field_5216.setColor(Color.argb((int) (150.0F + 40.0F * var2), 0, 200, 0));
                             accessor.invoke_method_2358(var4, var6, height, "选择", "(长按...)", c.field_5216, var2);
-                        } else if (var13.field_5386 < 100.0F) {
-                            var2 = (var13.field_5386 - 50.0F) / 50.0F;
+                        } else if (var13.field_5386 < DELAY * 2) {
+                            var2 = (var13.field_5386 - DELAY) / DELAY;
                             c.field_5216.setColor(Color.argb((int) (150.0F + 40.0F * var2), 200, 0, 0));
                             accessor.invoke_method_2358(var4, var6, height, "添加", "(长按...)", c.field_5216, var2);
                         } else {
@@ -115,11 +116,11 @@ public class UnitGroupsHook {
 
                     if (!var16) {
                         if (var13.field_5386 != 0.0f && !c.field_5182.field_5459) {
-                            if (var13.field_5386 > 100.0f) {
+                            if (var13.field_5386 > DELAY * 2) {
                                 var13.field_5385.clear();
                                 var13.method_2449();
                                 var13.field_5390 = 1.0f;
-                            } else if (var13.field_5386 > 50.0f) {
+                            } else if (var13.field_5386 > DELAY) {
                                 var13.method_2449();
                                 c.field_5182.method_2554();
                                 c.field_5182.method_2562();

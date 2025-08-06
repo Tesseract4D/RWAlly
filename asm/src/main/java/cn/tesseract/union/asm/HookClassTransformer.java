@@ -48,13 +48,10 @@ public class HookClassTransformer implements ClassFileTransformer {
             Collections.sort(hooks);
             logger.debug("Injecting hooks into class " + className);
             try {
-                int majorVersion = ((bytecode[6] & 0xFF) << 8) | (bytecode[7] & 0xFF);
-                boolean java7 = majorVersion > 50;
-
                 ClassReader cr = new ClassReader(bytecode);
-                ClassWriter cw = createClassWriter(java7 ? ClassWriter.COMPUTE_FRAMES : ClassWriter.COMPUTE_MAXS);
+                ClassWriter cw = createClassWriter(ClassWriter.COMPUTE_FRAMES);
                 HookInjectorClassVisitor hooksWriter = createInjectorClassVisitor(cw, hooks);
-                cr.accept(hooksWriter, java7 ? ClassReader.SKIP_FRAMES : ClassReader.EXPAND_FRAMES);
+                cr.accept(hooksWriter,ClassReader.EXPAND_FRAMES);
                 bytecode = cw.toByteArray();
 
                 if (DragonflyTransformer.dumpTransformedClass)

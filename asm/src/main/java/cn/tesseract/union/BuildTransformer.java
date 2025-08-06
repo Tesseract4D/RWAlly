@@ -2,10 +2,7 @@ package cn.tesseract.union;
 
 import cn.tesseract.union.asm.Accessor;
 import cn.tesseract.union.javassist.CtClassTransformer;
-import javassist.CannotCompileException;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.NotFoundException;
+import javassist.*;
 import org.apache.commons.io.FileUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -33,7 +30,7 @@ public class BuildTransformer {
         DragonflyTransformer transformer = new DragonflyTransformer();
         HashSet<String> entries = new HashSet<>();
 
-        registerCtClassTransformer("com.corrodinggames.rts.union.gameFramework.m.class_1192", ctc -> {
+        registerCtClassTransformer("com.corrodinggames.rts.union.gameFramework.m.class_1192", (pool, ctc) -> {
             try {
                 ctc.getDeclaredMethod("method_3199").setBody("""
                         {
@@ -41,6 +38,30 @@ public class BuildTransformer {
                             $1.restore();
                         } catch (IllegalStateException ignored) {
                         }
+                        }
+                        """);
+            } catch (NotFoundException | CannotCompileException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        registerCtClassTransformer("com.corrodinggames.rts.union.gameFramework.f.class_908", (pool, ctc) -> {
+            try {
+                CtMethod ctm = ctc.getDeclaredMethod("method_2365");
+                ctm.addLocalVariable("index", pool.get(int.class.getName()));
+                ctm.addLocalVariable("shift", pool.get("cn.tesseract.union.util.ShiftButton"));
+                ctm.insertAt(1388, """
+                        {
+                            index=Math.min($0.field_5199.size(),1);
+                            $0.field_5199.add(index,((cn.tesseract.union.accessor.SideBarAccessor)$0.field_5182).get_stopButton());
+                            $0.field_5199.add(index,((cn.tesseract.union.accessor.SideBarAccessor)$0.field_5182).get_shiftButton());
+                        }
+                        """);
+                ctm.insertAfter("""
+                        {
+                            shift=((cn.tesseract.union.accessor.SideBarAccessor)$0.field_5182).get_shiftButton();
+                            if(!($0.field_5199.contains(shift)||shift.disabled))
+                                shift.method_607(null,false);
                         }
                         """);
             } catch (NotFoundException | CannotCompileException e) {
@@ -78,7 +99,7 @@ public class BuildTransformer {
                         CtClass ctClass = pool.get(className);
                         Iterator<CtClassTransformer> it = transformers.iterator();
                         while (it.hasNext()) {
-                            it.next().transform(ctClass);
+                            it.next().transform(pool, ctClass);
                             it.remove();
                         }
                         System.out.println("Transforming CtClass: " + className);

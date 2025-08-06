@@ -23,7 +23,7 @@ dependencies {
 }
 
 tasks.register('jar2dex', Exec) {
-    commandLine 'java', '-cp', 'D:\\build-tools\\34.0.0\\lib\\d8.jar', 'com.android.tools.r8.D8', 'classes.jar', "--min-api", "28"
+    commandLine 'java', '-cp', 'D:\\build-tools\\34.0.0\\lib\\d8.jar', 'com.android.tools.r8.D8', 'classes.jar', "--min-api", "8"
     workingDir 'libs'
 }
 

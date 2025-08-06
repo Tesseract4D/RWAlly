@@ -26,6 +26,7 @@ public class MiscHelper {
                         @Override
                         public void visitLocalVariable(String name, String desc,
                                                        String signature, Label start, Label end, int index) {
+                            System.out.println("name");
                             String typeName = Type.getType(desc).getClassName();
                             int fixedIndex = index + ((acc & Opcodes.ACC_STATIC) != 0 ? 1 : 0);
                             localVariables.add(fixedIndex + ": " + typeName + " " + name);

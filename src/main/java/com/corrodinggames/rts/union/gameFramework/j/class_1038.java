@@ -93,7 +93,7 @@ public class class_1038 implements Runnable {
             if (!this.field_6192.field_6166) {
                 if (class_1032Var.field_6124 > 100) {
                     this.field_6192.field_6165.method_2737(class_1032Var);
-                    this.field_6192.field_6165.field_5874.field_6015 = 0;
+                    //this.field_6192.field_6165.field_5874.field_6015 = 0;
                 } else {
                     this.field_6192.field_6165.field_5889.add(class_1032Var);
                 }
