@@ -2,8 +2,8 @@ package cn.tesseract.union.util;
 
 import com.corrodinggames.rts.union.game.units.a.class_346;
 import com.corrodinggames.rts.union.game.units.a.class_349;
-import com.corrodinggames.rts.union.game.units.class_426;
-import com.corrodinggames.rts.union.gameFramework.class_1061;
+import com.corrodinggames.rts.union.game.units.Unit;
+import com.corrodinggames.rts.union.gameFramework.GameEngine;
 import com.corrodinggames.rts.union.gameFramework.class_780;
 
 public class GlobalChatButton extends class_346 {
@@ -20,11 +20,11 @@ public class GlobalChatButton extends class_346 {
     }
 
     public final class_780 method_583() {
-        return class_1061.method_3076().field_6348.field_4308;
+        return GameEngine.method_3076().field_6348.field_4308;
     }
 
-    public final boolean method_607(class_426 ce, boolean boolean2) {
-        class_1061.method_3076().field_6347.field_5599.method_2371(13);
+    public final boolean method_607(Unit ce, boolean boolean2) {
+        GameEngine.method_3076().field_6347.field_5599.method_2371(13);
         return true;
     }
 

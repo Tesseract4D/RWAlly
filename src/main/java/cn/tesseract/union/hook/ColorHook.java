@@ -7,11 +7,11 @@ import cn.tesseract.union.asm.ReturnCondition;
 import com.corrodinggames.rts.union.appFramework.MultiplayerBattleroomActivity;
 import com.corrodinggames.rts.union.appFramework.class_166;
 import com.corrodinggames.rts.union.appFramework.class_167;
-import com.corrodinggames.rts.union.game.class_324;
-import com.corrodinggames.rts.union.game.class_325;
-import com.corrodinggames.rts.union.gameFramework.class_1061;
+import com.corrodinggames.rts.union.game.Player;
+import com.corrodinggames.rts.union.game.EnumColor;
+import com.corrodinggames.rts.union.gameFramework.GameEngine;
 import com.corrodinggames.rts.union.gameFramework.h.class_988;
-import com.corrodinggames.rts.union.gameFramework.j.class_1001;
+import com.corrodinggames.rts.union.gameFramework.j.NetworkEngine;
 import com.corrodinggames.rts.union.gameFramework.m.class_1189;
 import com.corrodinggames.rts.union.gameFramework.m.class_1216;
 
@@ -226,7 +226,7 @@ public class ColorHook {
     };
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
-    public static void setupPlayerColorDropDown(MultiplayerBattleroomActivity c, Spinner spinner, boolean z, boolean z2, class_324 class_315Var) {
+    public static void setupPlayerColorDropDown(MultiplayerBattleroomActivity c, Spinner spinner, boolean z, boolean z2, Player class_315Var) {
         String str;
         int i;
         int i2;
@@ -235,8 +235,8 @@ public class ColorHook {
             arrayList.add(new class_167("-99", class_988.method_2636("menus.settings.option.default", new Object[0]), null));
         }
         for (int i3 = 0; i3 < teamColorNames.length; i3++) {
-            boolean z3 = z2 && class_1001.method_2728(i3, class_315Var);
-            String h = class_324.method_524(i3);
+            boolean z3 = z2 && NetworkEngine.method_2728(i3, class_315Var);
+            String h = Player.method_524(i3);
             if (h == null) {
                 str = null;
             } else if (h.isEmpty()) {
@@ -252,7 +252,7 @@ public class ColorHook {
                 i = i3;
                 i2 = i3;
             }
-            arrayList.add(new class_167(String.valueOf(i), str, class_324.method_522(i2)));
+            arrayList.add(new class_167(String.valueOf(i), str, Player.method_522(i2)));
         }
         class_166 class_182Var = new class_166(c, arrayList);
         class_182Var.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
@@ -260,12 +260,12 @@ public class ColorHook {
     }
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
-    public static String method_524(class_324 c, int i2) {
+    public static String method_524(Player c, int i2) {
         return (i2 < 0 || i2 >= teamColorNames.length) ? "GRAY" : teamColorNames[i2];
     }
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
-    public static int method_522(class_324 c, int i2) {
+    public static int method_522(Player c, int i2) {
         if (i2 >= 0 && i2 < teamColors.length) {
             return teamColors[i2];
         }
@@ -273,15 +273,15 @@ public class ColorHook {
     }
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
-    public static int method_452(class_324 c) {
+    public static int method_452(Player c) {
         return c.field_1457 < 0 ? 5 : c.field_1401 == null ? c.field_1457 % teamColors.length : c.field_1402 < 0 ? 5 : c.field_1402;
     }
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
-    public static class_1189[] method_479(class_324 c, class_1189 e, class_325 q) {
+    public static class_1189[] method_479(Player c, class_1189 e, EnumColor q) {
         class_1189[] class_1189VarArr = new class_1189[teamColorNames.length];
         int i = 0;
-        if ((class_1061.field_6304 && !class_1061.field_6306) || q == class_325.field_1476) {
+        if ((GameEngine.field_6304 && !GameEngine.field_6306) || q == EnumColor.disabled) {
             while (i < teamColorNames.length) {
                 class_1189VarArr[i] = e;
                 i++;
@@ -293,7 +293,7 @@ public class ColorHook {
             return class_1189VarArrMethod_3204;
         }
         while (i < teamColorNames.length) {
-            int iMethod_522 = class_324.method_522(i);
+            int iMethod_522 = Player.method_522(i);
             if (i == 0) {
                 class_1189VarArr[i] = e;
             } else {
@@ -306,9 +306,9 @@ public class ColorHook {
     }
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
-    public static class_1189[] method_495(class_324 c, class_1189 e, class_325 q) {
+    public static class_1189[] method_495(Player c, class_1189 e, EnumColor q) {
         class_1189[] class_1189VarArr = new class_1189[teamColorNames.length];
-        if ((class_1061.field_6304 && !class_1061.field_6306) || q == class_325.field_1476) {
+        if ((GameEngine.field_6304 && !GameEngine.field_6306) || q == EnumColor.disabled) {
             for (int i = 0; i < teamColorNames.length; i++) {
                 class_1189VarArr[i] = e;
             }
@@ -320,7 +320,7 @@ public class ColorHook {
         }
         int[] iArr = new int[teamColorNames.length];
         for (int i2 = 0; i2 < teamColorNames.length; i2++) {
-            iArr[i2] = class_324.method_522(i2);
+            iArr[i2] = Player.method_522(i2);
         }
         for (int i3 = 0; i3 < teamColorNames.length; i3++) {
             if (i3 != 0) {
@@ -331,12 +331,12 @@ public class ColorHook {
             }
         }
         e.method_3214();
-        if (q == class_325.field_1473) {
-            class_324.method_507(e, class_1189VarArr, iArr);
-        } else if (q == class_325.field_1475) {
-            class_324.method_496(e, class_1189VarArr, iArr);
+        if (q == EnumColor.hueAdd) {
+            Player.method_507(e, class_1189VarArr, iArr);
+        } else if (q == EnumColor.hueShift) {
+            Player.method_496(e, class_1189VarArr, iArr);
         } else {
-            class_324.method_481(e, class_1189VarArr, iArr);
+            Player.method_481(e, class_1189VarArr, iArr);
         }
         for (int i4 = 0; i4 < teamColorNames.length; i4++) {
             class_1189 class_1189Var = class_1189VarArr[i4];

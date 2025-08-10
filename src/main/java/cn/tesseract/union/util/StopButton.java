@@ -1,14 +1,14 @@
 package cn.tesseract.union.util;
 
 import cn.tesseract.union.api.Union;
+import com.corrodinggames.rts.union.game.units.Unit;
+import com.corrodinggames.rts.union.game.units.a.PlayerAction;
+import com.corrodinggames.rts.union.game.units.a.UnitAction;
 import com.corrodinggames.rts.union.game.units.a.class_349;
-import com.corrodinggames.rts.union.game.units.a.class_350;
-import com.corrodinggames.rts.union.game.units.a.class_351;
 import com.corrodinggames.rts.union.game.units.class_409;
-import com.corrodinggames.rts.union.game.units.class_426;
 import com.corrodinggames.rts.union.game.units.class_704;
 import com.corrodinggames.rts.union.gameFramework.a.class_761;
-import com.corrodinggames.rts.union.gameFramework.class_1061;
+import com.corrodinggames.rts.union.gameFramework.GameEngine;
 import com.corrodinggames.rts.union.gameFramework.class_773;
 import com.corrodinggames.rts.union.gameFramework.class_898;
 import com.corrodinggames.rts.union.gameFramework.f.class_961;
@@ -27,8 +27,8 @@ public class StopButton extends class_349 {
         return "停止单位";
     }
 
-    public final boolean method_607(class_426 ce, boolean boolean2) {
-        class_1061 game = Union.getGameEngine();
+    public final boolean method_607(Unit ce, boolean boolean2) {
+        GameEngine game = Union.getGameEngine();
         class_898 m = class_961.method_2560();
         m.field_5097 = true;
         method_2522(m);
@@ -52,7 +52,7 @@ public class StopButton extends class_349 {
         return null;
     }
 
-    public final int method_603(class_426 ce, boolean boolean2) {
+    public final int method_603(Unit ce, boolean boolean2) {
         return -1;
     }
 
@@ -60,12 +60,12 @@ public class StopButton extends class_349 {
         return 0;
     }
 
-    public final class_351 method_608() {
-        return class_351.field_1567;
+    public final PlayerAction method_608() {
+        return PlayerAction.none;
     }
 
-    public final class_350 method_610() {
-        return class_350.field_1557;
+    public final UnitAction method_610() {
+        return UnitAction.none;
     }
 
     public final boolean method_612() {

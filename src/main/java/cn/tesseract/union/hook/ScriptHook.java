@@ -10,14 +10,13 @@ import cn.tesseract.union.asm.ReturnCondition;
 import cn.tesseract.union.util.CallbackInfo;
 import com.corrodinggames.rts.union.appFramework.MainMenuActivity;
 import com.corrodinggames.rts.union.appFramework.MultiplayerBattleroomActivity;
+import com.corrodinggames.rts.union.game.Player;
 import com.corrodinggames.rts.union.game.class_317;
-import com.corrodinggames.rts.union.game.class_324;
-import com.corrodinggames.rts.union.gameFramework.class_1061;
+import com.corrodinggames.rts.union.gameFramework.GameEngine;
 import com.corrodinggames.rts.union.gameFramework.class_898;
-import com.corrodinggames.rts.union.gameFramework.j.class_1001;
+import com.corrodinggames.rts.union.gameFramework.j.NetworkEngine;
 import com.corrodinggames.rts.union.gameFramework.j.class_1032;
 import com.corrodinggames.rts.union.gameFramework.j.class_1037;
-import com.corrodinggames.rts.union.gameFramework.j.class_1038;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
@@ -48,7 +47,7 @@ public class ScriptHook {
                     func.call(cx, scope, scope, args);
                 } catch (Throwable e) {
                     Network.message("在执行 " + id + " 时发生错误，日志保存在 union.log 中!");
-                    Files.log(class_1061.method_3011(e));
+                    Files.log(GameEngine.method_3011(e));
                 }
             }
         });
@@ -56,22 +55,22 @@ public class ScriptHook {
     }
 
     @Hook(targetMethod = "method_2741")
-    public static void onChat(class_1001 c, class_1037 conn, class_324 player, String str, String msg) {
+    public static void onChat(NetworkEngine c, class_1037 conn, Player player, String str, String msg) {
         call("onChat", player, msg);
     }
 
     @Hook(targetMethod = "method_2897", injector = "simple:method_2901,0")
-    public static void onDisconnect(class_1037 c, boolean z, boolean z2, String str) throws RuntimeException {
+    public static void onDisconnect(class_1037 c, boolean z, boolean z2, String str) {
         call("onDisconnect", c);
     }
 
     @Hook(targetMethod = "method_425", injector = "exit")
-    public static void onTick(class_317 c, float f) throws RuntimeException {
+    public static void onTick(class_317 c, float f) {
         call("onTick", Union.getGameEngine().field_6379);
     }
 
     @Hook(targetMethod = "method_2720")
-    public static void onStartGame(class_1001 c) {
+    public static void onStartGame(NetworkEngine c) {
         call("onStartGame");
     }
 
@@ -85,7 +84,7 @@ public class ScriptHook {
     }
 
     @Hook(targetMethod = "method_2734", returnCondition = ReturnCondition.ON_TRUE)
-    public static boolean onAction(class_1001 c, class_898 action) throws RuntimeException {
+    public static boolean onAction(NetworkEngine c, class_898 action) {
         if (!c.field_5851) return false;
         CallbackInfo ci = new CallbackInfo();
         call("onAction", action, ci);
@@ -93,15 +92,12 @@ public class ScriptHook {
     }
 
     @Hook(targetMethod = "method_2737", injector = "simple:method_3076,0")
-    public static void onPacket(class_1001 c, class_1032 packet) throws RuntimeException {
+    public static void onPacket(NetworkEngine c, class_1032 packet) {
         call("onPacket", packet);
     }
 
-    @Hook(targetMethod = "method_2909", injector = "simple:method_2737")
-    public static void onJoin(class_1038 c, @Hook.LocalVariable(5) class_1032 packet) throws RuntimeException {
-        if (packet.field_6124 == 110 && packet.field_6123.field_6142 != null) {
-            call("onJoin", packet.field_6123);
-        }
+    public static void onJoin(class_1032 packet) {
+        call("onJoin", packet.field_6123);
     }
 
     @Hook

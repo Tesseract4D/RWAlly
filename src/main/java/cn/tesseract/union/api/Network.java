@@ -1,13 +1,13 @@
 package cn.tesseract.union.api;
 
 import cn.tesseract.union.accessor.NetworkAccessor;
-import cn.tesseract.union.util.Actions;
-import com.corrodinggames.rts.union.game.class_324;
+import com.corrodinggames.rts.union.game.Player;
+import com.corrodinggames.rts.union.game.units.Actions;
+import com.corrodinggames.rts.union.game.units.Waypoint;
 import com.corrodinggames.rts.union.game.units.a.class_333;
 import com.corrodinggames.rts.union.game.units.class_431;
-import com.corrodinggames.rts.union.game.units.class_706;
 import com.corrodinggames.rts.union.gameFramework.class_898;
-import com.corrodinggames.rts.union.gameFramework.j.class_1001;
+import com.corrodinggames.rts.union.gameFramework.j.NetworkEngine;
 import com.corrodinggames.rts.union.gameFramework.j.class_1030;
 import com.corrodinggames.rts.union.gameFramework.j.class_1037;
 
@@ -16,19 +16,19 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Network {
     public static void sendTeamMessage(String message, int team) {
-        ConcurrentLinkedQueue<class_1037> connections = Union.getNetworkEngine().field_5888;
+        ConcurrentLinkedQueue<class_1037> connections = Union.getNetworkEngine().connections;
         for (class_1037 conn : connections) {
-            if (conn.field_6181 && !conn.field_6166 && conn.field_6142.field_1464 == team) {
+            if (conn.field_6181 && !conn.field_6166 && conn.field_6142.team == team) {
                 sendMessage(message, null, conn, -1);
             }
         }
-        if (Union.getNetworkEngine().field_5848.field_1464 == team) {
+        if (Union.getNetworkEngine().field_5848.team == team) {
             sendMessage(message, null);
         }
     }
 
     public static void sendMessage(String message, int index) {
-        ConcurrentLinkedQueue<class_1037> connections = Union.getNetworkEngine().field_5888;
+        ConcurrentLinkedQueue<class_1037> connections = Union.getNetworkEngine().connections;
         for (class_1037 conn : connections) {
             if (conn.field_6142 != null && conn.field_6142.field_1457 == index) {
                 sendMessage(message, null, conn, -1);
@@ -37,6 +37,10 @@ public class Network {
         if (Union.getNetworkEngine().field_5848 != null && Union.getNetworkEngine().field_5848.field_1457 == index) {
             sendMessage(message, null);
         }
+    }
+
+    public static void setMaxPlayer(int n) {
+        Player.method_488(n, true);
     }
 
     public static void message(String message) {
@@ -78,8 +82,8 @@ public class Network {
     }
 
     public static void sync() {
-        class_1001 c = Union.getNetworkEngine();
-        Iterator it = c.field_5888.iterator();
+        NetworkEngine c = Union.getNetworkEngine();
+        Iterator it = c.connections.iterator();
         while (it.hasNext()) {
             Object o = it.next();
             class_1037 p = (class_1037) o;
@@ -88,16 +92,16 @@ public class Network {
         }
     }
 
-    public static void spawnUnit(class_324 player, String name, float x, float y) {
-        class_1001 network = Union.getNetworkEngine();
+    public static void spawnUnit(Player player, String name, float x, float y) {
+        NetworkEngine network = Union.getNetworkEngine();
 
         //Waypoint
-        class_706 waypoint = new class_706();
-        waypoint.field_3927 = Actions.build;
-        waypoint.field_3928 = class_431.method_1082(name);
+        Waypoint waypoint = new Waypoint();
+        waypoint.action = Actions.build;
+        waypoint.type = class_431.method_1082(name);
         //waypoint.field_3930 = tech;
-        waypoint.field_3931 = x;
-        waypoint.field_3932 = y;
+        waypoint.x = x;
+        waypoint.y = y;
 
         //Action
         class_898 action = Union.getGameEngine().field_6412.method_2060();

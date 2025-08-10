@@ -4,7 +4,7 @@ import android.graphics.Color;
 import cn.tesseract.union.accessor.InGameGuiAccessor;
 import cn.tesseract.union.asm.Hook;
 import cn.tesseract.union.asm.ReturnCondition;
-import com.corrodinggames.rts.union.game.units.class_426;
+import com.corrodinggames.rts.union.game.units.Unit;
 import com.corrodinggames.rts.union.gameFramework.class_773;
 import com.corrodinggames.rts.union.gameFramework.class_907;
 import com.corrodinggames.rts.union.gameFramework.f.class_908;
@@ -31,9 +31,9 @@ public class UnitGroupsHook {
             class_945 var13 = (class_945) c.field_5178.get(var3);
             if (var13.field_5392) {
                 if (!var13.field_5385.isEmpty()) {
-                    ArrayList<class_426> var14 = new ArrayList<>();
+                    ArrayList<Unit> var14 = new ArrayList<>();
 
-                    for (class_426 var15 : (ArrayList<class_426>) var13.field_5385) {
+                    for (Unit var15 : (ArrayList<Unit>) var13.field_5385) {
                         var15 = class_773.method_1767(var15.field_4220, true);
                         if (var15 != null && !var15.field_1925) {
                             var14.add(var15);

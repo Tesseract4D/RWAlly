@@ -3,9 +3,9 @@ package cn.tesseract.union.util;
 import android.view.KeyEvent;
 import cn.tesseract.union.api.Union;
 import com.corrodinggames.rts.union.game.units.a.class_349;
-import com.corrodinggames.rts.union.game.units.a.class_350;
-import com.corrodinggames.rts.union.game.units.a.class_351;
-import com.corrodinggames.rts.union.game.units.class_426;
+import com.corrodinggames.rts.union.game.units.a.UnitAction;
+import com.corrodinggames.rts.union.game.units.a.PlayerAction;
+import com.corrodinggames.rts.union.game.units.Unit;
 import com.corrodinggames.rts.union.game.units.class_704;
 
 
@@ -24,7 +24,7 @@ public class ShiftButton extends class_349 {
         return "连续" + (disabled ? "禁用" : "启用");
     }
 
-    public final boolean method_607(class_426 ce, boolean boolean2) {
+    public final boolean method_607(Unit ce, boolean boolean2) {
         disabled = !disabled;
         if (disabled) Union.getGameEngine().method_3027(59, new KeyEvent(1, 59));
         else Union.getGameEngine().method_2992(59, new KeyEvent(0, 59));
@@ -35,7 +35,7 @@ public class ShiftButton extends class_349 {
         return null;
     }
 
-    public final int method_603(class_426 ce, boolean boolean2) {
+    public final int method_603(Unit ce, boolean boolean2) {
         return -1;
     }
 
@@ -43,12 +43,12 @@ public class ShiftButton extends class_349 {
         return 0;
     }
 
-    public final class_351 method_608() {
-        return class_351.field_1567;
+    public final PlayerAction method_608() {
+        return PlayerAction.none;
     }
 
-    public final class_350 method_610() {
-        return class_350.field_1557;
+    public final UnitAction method_610() {
+        return UnitAction.none;
     }
 
     public final boolean method_612() {
