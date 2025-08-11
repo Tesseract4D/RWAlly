@@ -20,11 +20,11 @@ public class GlobalChatButton extends class_346 {
     }
 
     public final class_780 method_583() {
-        return GameEngine.method_3076().field_6348.field_4308;
+        return GameEngine.get().field_6348.field_4308;
     }
 
     public final boolean method_607(Unit ce, boolean boolean2) {
-        GameEngine.method_3076().field_6347.field_5599.method_2371(13);
+        GameEngine.get().field_6347.field_5599.method_2371(13);
         return true;
     }
 

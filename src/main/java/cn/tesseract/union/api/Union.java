@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Union {
 
     public static GameEngine getGameEngine() {
-        return GameEngine.method_3076();
+        return GameEngine.get();
     }
 
     public static NetworkEngine getNetworkEngine() {

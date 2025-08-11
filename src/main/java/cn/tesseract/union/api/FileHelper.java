@@ -1,39 +1,38 @@
 package cn.tesseract.union.api;
 
 import com.corrodinggames.rts.game.units.custom.logicBooleans.VariableScope;
-import com.corrodinggames.rts.union.gameFramework.e.class_899;
+import com.corrodinggames.rts.union.gameFramework.e.FileManager;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Files {
+public class FileHelper {
     public static InputStream getInputStream(String path) {
-        return class_899.method_2188("/SD/rustedWarfare/" + path);
+        return FileManager.openAssetStream("/SD/rustedWarfare/" + path);
     }
 
     public static OutputStream getOutputStream(String path) {
-        return class_899.method_2189("/SD/rustedWarfare/" + path);
+        return FileManager.openOutputStream("/SD/rustedWarfare/" + path);
     }
 
     public static boolean exists(String path) {
-        return class_899.method_2186("/SD/rustedWarfare/" + path);
+        return FileManager.fileExists("/SD/rustedWarfare/" + path);
     }
 
     public static boolean dirExists(String path) {
-        return class_899.method_2180("/SD/rustedWarfare/" + path);
+        return FileManager.dirExists("/SD/rustedWarfare/" + path);
     }
 
     public static boolean mkdir(String path) {
-        return class_899.method_2190("/SD/rustedWarfare/" + path);
+        return FileManager.mkdir("/SD/rustedWarfare/" + path);
     }
 
     public static boolean renameFile(String from, String to) {
-        return class_899.method_2166(from, "/SD/rustedWarfare/", to);
+        return FileManager.renameFile(from, "/SD/rustedWarfare/", to);
     }
 
-    public static String read(String path) throws IOException {
-        InputStream is = getInputStream(path);
+    public static String read(InputStream is) throws IOException {
         if (is == null) {
             return VariableScope.nullOrMissingString;
         }
@@ -52,18 +51,17 @@ public class Files {
         }
     }
 
-    public static void write(String path, String content) throws IOException {
-        OutputStream os = getOutputStream(path);
+    public static void write(OutputStream os, String content) throws IOException {
         os.write(content.getBytes());
         os.close();
     }
 
     public static String[] listFiles(String path) {
-        return class_899.method_2168("/SD/rustedWarfare/" + path, false);
+        return FileManager.listDir("/SD/rustedWarfare/" + path, false);
     }
 
     public static void log(String log) {
-        PrintWriter writer = new PrintWriter(class_899.method_2164(new File(class_899.method_2178("/SD/rustedWarfare/union.log")), true));
+        PrintWriter writer = new PrintWriter(FileManager.method_2164(new File(FileManager.method_2178("/SD/rustedWarfare/union.log")), true));
         writer.write("\r\n" + log + "\n (at " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()) + "\n");
         writer.close();
     }

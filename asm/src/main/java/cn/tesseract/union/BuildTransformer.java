@@ -50,11 +50,11 @@ public class BuildTransformer {
                 CtMethod ctm = ctc.getDeclaredMethod("method_2365");
                 ctm.addLocalVariable("index", pool.get(int.class.getName()));
                 ctm.addLocalVariable("shift", pool.get("cn.tesseract.union.util.ShiftButton"));
-                ctm.insertAt(1388, """
+                ctm.insertAt(1389, """
                         {
-                            index=Math.min($0.field_5199.size(),1);
-                            $0.field_5199.add(index,((cn.tesseract.union.accessor.SideBarAccessor)$0.field_5182).get_stopButton());
+                            index=$0.field_5199.indexOf($0.field_5182.field_5605);
                             $0.field_5199.add(index,((cn.tesseract.union.accessor.SideBarAccessor)$0.field_5182).get_shiftButton());
+                            $0.field_5199.add(index,((cn.tesseract.union.accessor.SideBarAccessor)$0.field_5182).get_stopButton());
                         }
                         """);
                 ctm.insertAfter("""

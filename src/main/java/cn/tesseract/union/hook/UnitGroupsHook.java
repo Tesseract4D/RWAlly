@@ -14,7 +14,7 @@ import com.corrodinggames.rts.union.gameFramework.f.class_961;
 import java.util.ArrayList;
 
 public class UnitGroupsHook {
-    public static final int EXTRA_SLOTS = 7;
+    public static final int EXTRA_SLOTS = 4;
     public static final float DELAY = 25;
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)

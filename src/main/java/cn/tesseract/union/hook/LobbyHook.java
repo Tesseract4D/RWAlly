@@ -17,7 +17,7 @@ public class LobbyHook {
     public static ArrayList getSortedDiscoveredServers(MultiplayerLobbyActivity c) {
         ArrayList list = new ArrayList();
         synchronized (class_1047.field_6255) {
-            for (class_1040 o : (ConcurrentLinkedQueue<class_1040>) GameEngine.method_3076().field_6352.field_5947) {
+            for (class_1040 o : (ConcurrentLinkedQueue<class_1040>) GameEngine.get().field_6352.field_5947) {
                 String version = o.field_6210;
                 if (version.equals("1.15-RN") || version.equals("1.15-RN-MOD")
                         || (version.contains("1.15") && !o.field_6203.equals("127.0.0.1") && !o.field_6216.isEmpty()))

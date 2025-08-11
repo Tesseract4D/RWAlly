@@ -1,19 +1,19 @@
 package cn.tesseract.union.hook;
 
-import android.os.Bundle;
-import android.widget.Toast;
-import cn.tesseract.union.api.Files;
+import cn.tesseract.union.api.FileHelper;
 import cn.tesseract.union.api.Network;
 import cn.tesseract.union.api.Union;
 import cn.tesseract.union.asm.Hook;
 import cn.tesseract.union.asm.ReturnCondition;
 import cn.tesseract.union.util.CallbackInfo;
-import com.corrodinggames.rts.union.appFramework.MainMenuActivity;
 import com.corrodinggames.rts.union.appFramework.MultiplayerBattleroomActivity;
 import com.corrodinggames.rts.union.game.Player;
 import com.corrodinggames.rts.union.game.class_317;
+import com.corrodinggames.rts.union.game.units.custom.class_472;
 import com.corrodinggames.rts.union.gameFramework.GameEngine;
 import com.corrodinggames.rts.union.gameFramework.class_898;
+import com.corrodinggames.rts.union.gameFramework.e.FileManager;
+import com.corrodinggames.rts.union.gameFramework.i.Modification;
 import com.corrodinggames.rts.union.gameFramework.j.NetworkEngine;
 import com.corrodinggames.rts.union.gameFramework.j.class_1032;
 import com.corrodinggames.rts.union.gameFramework.j.class_1037;
@@ -28,6 +28,10 @@ public class ScriptHook {
     public static Context CONTEXT = Context.enter();
     private static HashMap<String, Scriptable> SCOPES = new HashMap<>();
     private static String lastMap;
+
+    static {
+        CONTEXT.setOptimizationLevel(-1);
+    }
 
     public static Scriptable getScope(String id) {
         Scriptable scope = SCOPES.get(id);
@@ -47,7 +51,7 @@ public class ScriptHook {
                     func.call(cx, scope, scope, args);
                 } catch (Throwable e) {
                     Network.message("在执行 " + id + " 时发生错误，日志保存在 union.log 中!");
-                    Files.log(GameEngine.method_3011(e));
+                    FileHelper.log(GameEngine.method_3011(e));
                 }
             }
         });
@@ -91,7 +95,7 @@ public class ScriptHook {
         return ci.isPrevented();
     }
 
-    @Hook(targetMethod = "method_2737", injector = "simple:method_3076,0")
+    @Hook(targetMethod = "method_2737", injector = "simple:get,0")
     public static void onPacket(NetworkEngine c, class_1032 packet) {
         call("onPacket", packet);
     }
@@ -101,27 +105,23 @@ public class ScriptHook {
     }
 
     @Hook
-    public static void onCreate(MainMenuActivity c, Bundle bundle) {
-        CONTEXT.setOptimizationLevel(-1);
-        if (!Files.dirExists("scripts")) {
-            Files.mkdir("scripts");
-        }
-        String[] scripts = Files.listFiles("scripts");
-        for (String script : scripts) {
-            int i = script.indexOf('/');
-            if (i != -1) {
-                script = script.substring(i + 1);
-            }
-            if (script.endsWith(".js")) {
-                try {
-                    Scriptable scope = getScope(script);
-                    scope.put("id", scope, script);
-                    CONTEXT.evaluateReader(scope, new InputStreamReader(Files.getInputStream("scripts/" + script)), script, 0, null);
-                } catch (Throwable e) {
-                    Toast.makeText(c, "在加载 " + script + " 时发生错误，日志保存在 union.log 中!", 1).show();
-                    Files.log(e.toString());
+    public static void method_1130(class_472 c, String dir, int integer, boolean boolean3, Modification b, String string5, String string6) {
+        if ((b == null || !b.field_5810)) {
+            String[] files = FileManager.method_2184(dir);
+            if (files != null)
+                for (String file : files) {
+                    if (file.endsWith(".js")) {
+                        FileHelper.log(file);
+                        try {
+                            String id = dir + "/" + file;
+                            Scriptable scope = getScope(id);
+                            scope.put("id", scope, id);
+                            CONTEXT.evaluateReader(scope, new InputStreamReader(FileManager.openAssetStream(dir + "/" + file)), file, 0, null);
+                        } catch (Throwable e) {
+                            FileHelper.log(e.toString());
+                        }
+                    }
                 }
-            }
         }
     }
 }

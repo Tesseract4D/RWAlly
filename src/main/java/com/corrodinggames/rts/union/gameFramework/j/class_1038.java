@@ -35,7 +35,7 @@ public class class_1038 implements Runnable {
                 e2.printStackTrace();
             }
             if (GameEngine.field_6309 && (e2 instanceof SocketException) && !this.field_6192.field_6166) {
-                GameEngine game = GameEngine.method_3076();
+                GameEngine game = GameEngine.get();
                 if (!game.field_6352.field_5851 && game.field_6352.field_5898 && (message = e2.getMessage()) != null && message.contains("EBADF")) {
                     game.method_3056("Warning: This disconnect likely due to iOS removing sockets of background apps. Avoid minimising the game in multiplayer. Note: Games can be rejoined.");
                 }

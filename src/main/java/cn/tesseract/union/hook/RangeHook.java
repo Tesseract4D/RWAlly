@@ -39,7 +39,7 @@ public class RangeHook {
         int ut = ce.player.team;
         MovementType type = ce.getMovementType();
 
-        return switch (RangeTypeButton.type) {
+        return ce.hp > 0 && switch (RangeTypeButton.type) {
             case 1 -> ut >= 0 && ut != pt;
             case 2 -> ut == pt;
             case 3 -> true;
@@ -58,11 +58,11 @@ public class RangeHook {
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
     public static void method_3510(class_1294 c, Unit ce, float float2, boolean boolean3, boolean boolean4) {
-        GameEngine game = GameEngine.method_3076();
+        GameEngine game = GameEngine.get();
         if (class_1294.method_3505(ce) || boolean3) {
-            float f = ce.field_4227;
+            float f = ce.x;
             float f2 = game.field_6429;
-            float f3 = ce.field_4228;
+            float f3 = ce.y;
             float f4 = game.field_6430;
             Paint paint;
 
@@ -82,10 +82,10 @@ public class RangeHook {
     @Hook(returnCondition = ReturnCondition.ALWAYS)
     public static void method_1777(Unit c, float float1) {
         if (!c.field_1925 && c.field_1950 == null && c.field_1943) {
-            GameEngine GameEngineVarMethod_3076 = GameEngine.method_3076();
-            if (c.player == GameEngineVarMethod_3076.userPlayer || class_961.method_2556(c)) {
-                if (GameEngineVarMethod_3076.field_6345.showUnitWaypoints && GameEngineVarMethod_3076.field_6481 <= 40) {
-                    GameEngineVarMethod_3076.field_6481++;
+            GameEngine GameEngineVarget = GameEngine.get();
+            if (c.player == GameEngineVarget.userPlayer || class_961.method_2556(c)) {
+                if (GameEngineVarget.field_6345.showUnitWaypoints && GameEngineVarget.field_6481 <= 40) {
+                    GameEngineVarget.field_6481++;
                     c.method_896();
                 }
                 c.method_938();

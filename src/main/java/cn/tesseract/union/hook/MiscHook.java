@@ -8,6 +8,6 @@ import com.corrodinggames.rts.union.appFramework.MainMenuActivity;
 public class MiscHook {
     @Hook
     public static void onCreate(MainMenuActivity c, Bundle bundle) {
-        Toast.makeText(c, "联盟版 v1.0 洗玻璃呀制作", Toast.LENGTH_LONG).show();
+        Toast.makeText(c, "联盟版 v1.1 洗玻璃呀制作", Toast.LENGTH_LONG).show();
     }
 }
