@@ -1,6 +1,5 @@
 package cn.tesseract.union.api;
 
-import com.corrodinggames.rts.game.units.custom.logicBooleans.VariableScope;
 import com.corrodinggames.rts.union.gameFramework.e.FileManager;
 
 import java.io.*;
@@ -13,7 +12,7 @@ public class FileHelper {
     }
 
     public static OutputStream getOutputStream(String path) {
-        return FileManager.openOutputStream("/SD/rustedWarfare/" + path);
+        return FileManager.method_2164(new File(FileManager.method_2178("/SD/rustedWarfare/" + path)), true);
     }
 
     public static boolean exists(String path) {
@@ -34,7 +33,7 @@ public class FileHelper {
 
     public static String read(InputStream is) throws IOException {
         if (is == null) {
-            return VariableScope.nullOrMissingString;
+            return "";
         }
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
@@ -51,9 +50,13 @@ public class FileHelper {
         }
     }
 
-    public static void write(OutputStream os, String content) throws IOException {
-        os.write(content.getBytes());
+    public static void write(OutputStream os, byte[] content) throws IOException {
+        os.write(content);
         os.close();
+    }
+
+    public static void write(OutputStream os, String content) throws IOException {
+        write(os, content.getBytes());
     }
 
     public static String[] listFiles(String path) {

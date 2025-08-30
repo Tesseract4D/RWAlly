@@ -53,8 +53,9 @@ public class BuildTransformer {
                 ctm.insertAt(1389, """
                         {
                             index=$0.field_5199.indexOf($0.field_5182.field_5605);
+                            $0.field_5199.set(index,((cn.tesseract.union.accessor.SideBarAccessor)$0.field_5182).get_stopButton());
                             $0.field_5199.add(index,((cn.tesseract.union.accessor.SideBarAccessor)$0.field_5182).get_shiftButton());
-                            $0.field_5199.add(index,((cn.tesseract.union.accessor.SideBarAccessor)$0.field_5182).get_stopButton());
+                            $0.field_5199.add(index,$0.field_5182.field_5605);
                         }
                         """);
                 ctm.insertAfter("""

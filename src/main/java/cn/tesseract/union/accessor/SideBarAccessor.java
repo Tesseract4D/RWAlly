@@ -25,4 +25,8 @@ public interface SideBarAccessor {
     StopButton get_stopButton();
 
     void set_stopButton(StopButton button);
+
+    MapTextButton get_mapTextButton();
+
+    void set_mapTextButton(MapTextButton button);
 }

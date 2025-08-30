@@ -1,5 +1,6 @@
 .gradle
 build/
+classses/
 !gradle/wrapper/gradle-wrapper.jar
 dragonfly.log
 libs/

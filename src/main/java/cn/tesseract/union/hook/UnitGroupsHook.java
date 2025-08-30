@@ -34,7 +34,7 @@ public class UnitGroupsHook {
                     ArrayList<Unit> var14 = new ArrayList<>();
 
                     for (Unit var15 : (ArrayList<Unit>) var13.field_5385) {
-                        var15 = class_773.method_1767(var15.field_4220, true);
+                        var15 = class_773.method_1767(var15.id, true);
                         if (var15 != null && !var15.field_1925) {
                             var14.add(var15);
                         }

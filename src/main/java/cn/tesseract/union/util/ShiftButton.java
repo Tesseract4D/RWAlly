@@ -6,7 +6,7 @@ import com.corrodinggames.rts.union.game.units.a.class_349;
 import com.corrodinggames.rts.union.game.units.a.UnitAction;
 import com.corrodinggames.rts.union.game.units.a.PlayerAction;
 import com.corrodinggames.rts.union.game.units.Unit;
-import com.corrodinggames.rts.union.game.units.class_704;
+import com.corrodinggames.rts.union.game.units.WaypointInfo;
 
 
 public class ShiftButton extends class_349 {
@@ -31,7 +31,7 @@ public class ShiftButton extends class_349 {
         return true;
     }
 
-    public final class_704 method_616() {
+    public final WaypointInfo method_616() {
         return null;
     }
 
@@ -60,7 +60,7 @@ public class ShiftButton extends class_349 {
     }
 
     public final float method_624() {
-        return 0.5f;
+        return 1f;
     }
 
     public final boolean method_614() {

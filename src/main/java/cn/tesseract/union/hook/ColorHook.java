@@ -274,7 +274,7 @@ public class ColorHook {
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
     public static int method_452(Player c) {
-        return c.field_1457 < 0 ? 5 : c.field_1401 == null ? c.field_1457 % teamColors.length : c.field_1402 < 0 ? 5 : c.field_1402;
+        return c.teamId < 0 ? 5 : c.color == null ? c.teamId % teamColors.length : c.colour < 0 ? 5 : c.colour;
     }
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
