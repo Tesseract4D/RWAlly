@@ -16,5 +16,7 @@ public interface NetworkAccessor {
 
     void invoke_method_2740(class_1037 class_1037Var, int i, String str, String str2);
 
-    RustedNetwork wrapper_instance();
+    RustedNetwork get_wrapper();
+
+    void set_wrapper(RustedNetwork wrapper);
 }

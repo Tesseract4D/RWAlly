@@ -1,11 +1,10 @@
 package cn.tesseract.union.hook;
 
-import cn.tesseract.union.api.FileHelper;
-import cn.tesseract.union.api.Union;
+import cn.tesseract.union.api.util.FileHelper;
 import cn.tesseract.union.api.rusted.RustedNetwork;
 import cn.tesseract.union.asm.Hook;
 import cn.tesseract.union.asm.ReturnCondition;
-import cn.tesseract.union.util.CallbackInfo;
+import cn.tesseract.union.api.command.Event;
 import com.corrodinggames.rts.union.appFramework.MultiplayerBattleroomActivity;
 import com.corrodinggames.rts.union.game.Player;
 import com.corrodinggames.rts.union.game.class_317;
@@ -66,7 +65,7 @@ public class ScriptHook {
 
     @Hook(targetMethod = "method_425", injector = "exit")
     public static void onTick(class_317 c, float f) {
-        call("onTick", Union.getGameEngine().field_6379);
+        call("onTick", GameEngine.get().field_6379);
     }
 
     @Hook(targetMethod = "method_2720")
@@ -76,7 +75,7 @@ public class ScriptHook {
 
     @Hook(targetMethod = "readInterfaceIntoNetworkSettings", injector = "simple:values")
     public static void onSwitchMap(MultiplayerBattleroomActivity c) {
-        String map = Union.getNetworkEngine().field_5874.field_6013;
+        String map = GameEngine.get().field_6352.field_5874.field_6013;
         if (!map.equals(lastMap)) {
             call("onSwitchMap", map);
             lastMap = map;
@@ -86,9 +85,9 @@ public class ScriptHook {
     @Hook(targetMethod = "method_2734", returnCondition = ReturnCondition.ON_TRUE)
     public static boolean onAction(NetworkEngine c, Action action) {
         if (!c.field_5851) return false;
-        CallbackInfo ci = new CallbackInfo();
+        Event ci = new Event();
         call("onAction", action, ci);
-        return ci.isPrevented();
+        return ci.isCanceled();
     }
 
     @Hook(targetMethod = "method_2737", injector = "simple:get,0")

@@ -3,9 +3,9 @@ package cn.tesseract.union.hook;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import cn.tesseract.union.api.FileHelper;
-import cn.tesseract.union.api.rusted.RustedGame;
+import cn.tesseract.union.api.util.FileHelper;
 import cn.tesseract.union.asm.Hook;
+import cn.tesseract.union.api.util.GameHelper;
 import com.corrodinggames.rts.union.appFramework.LoadLevelActivity;
 import com.corrodinggames.rts.union.appFramework.ReplaySelectActivity;
 import com.corrodinggames.rts.union.gameFramework.GameEngine;
@@ -46,7 +46,7 @@ public class ExtractMapHook {
         if (menuItem.getGroupId() == 4) {
             map = str.replaceAll(" \\[v1.15] \\(.*\\)\\.rwsave$", ".tmx");
             extracting = true;
-            c.loadLevel(RustedGame.getActivity(), str);
+            c.loadLevel(GameHelper.getActivity(), str);
         }
     }
 
@@ -61,7 +61,7 @@ public class ExtractMapHook {
         if (menuItem.getGroupId() == 4) {
             map = str.replaceAll(" \\[v1.15] \\(.*\\)\\.replay$", ".tmx");
             extracting = true;
-            c.loadReplay(RustedGame.getActivity(), str);
+            c.loadReplay(GameHelper.getActivity(), str);
         }
     }
 }

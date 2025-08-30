@@ -26,16 +26,10 @@ public class RangeHook {
         yellow.setColor(class_907.method_2292(200, 150, 150, 0));
         gray.setColor(-1);
     }
-    /*@Hook(injector = "line:4263")
-    public static void method_429(class_317 c, float float1, @Hook.LocalVariable(10) class_773 unit) {
-        if (unit instanceof Unit u) {
-            unit.method_1773(float1);
-        }
-    }*/
 
     @Hook(returnCondition = ReturnCondition.ON_TRUE)
     public static boolean method_3505(class_1294 c, Unit ce) {
-        int pt = Union.getGameEngine().userPlayer.team;
+        int pt = GameEngine.get().userPlayer.team;
         int ut = ce.player.team;
         MovementType type = ce.getMovementType();
 
@@ -66,7 +60,7 @@ public class RangeHook {
             float f4 = game.field_6430;
             Paint paint;
 
-            Player p = Union.getGameEngine().userPlayer;
+            Player p = GameEngine.get().userPlayer;
             if (ce.player == p)
                 paint = green;
             else if (ce.player.team == p.team) {

@@ -16,7 +16,6 @@ public class Accessor implements NodeTransformer {
     public String target;
     private final Map<String, String> getterMap = new HashMap<>();
     private final Map<String, String> setterMap = new HashMap<>();
-    private final Map<String, String> wrapperMap = new HashMap<>();
     private final ArrayList<String> proxyList = new ArrayList<>();
 
     public @interface Target {
@@ -38,8 +37,6 @@ public class Accessor implements NodeTransformer {
                     getterMap.put(name.substring(4), Type.getReturnType(desc).getDescriptor());
                 } else if (name.startsWith("set_")) {
                     setterMap.put(name.substring(4), Type.getArgumentTypes(desc)[0].getDescriptor());
-                } else if (name.startsWith("wrapper_")) {
-                    wrapperMap.put(name.substring(8), Type.getReturnType(desc).getDescriptor());
                 } else if (name.startsWith("invoke_")) {
                     proxyList.add(name.substring(7));
                     proxyList.add(desc);
@@ -131,55 +128,6 @@ public class Accessor implements NodeTransformer {
             getter.instructions.add(new FieldInsnNode(Opcodes.GETFIELD, node.name, name, desc));
             getter.instructions.add(new InsnNode(getReturn(Type.getType(desc))));
             node.methods.add(getter);
-        });
-
-        wrapperMap.forEach((name, desc) -> {
-            boolean f = true;
-            for (FieldNode field : node.fields) {
-                if (field.name.equals(name)) {
-                    f = false;
-                    break;
-                }
-            }
-
-            if (f) {
-                FieldNode fieldNode = new FieldNode(Opcodes.ACC_PUBLIC, name, desc, null, null);
-                node.fields.add(fieldNode);
-            }
-
-            MethodNode getter = new MethodNode(Opcodes.ACC_PUBLIC, "wrapper_" + name, "()" + desc, null, null);
-
-            getter.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-            getter.instructions.add(new FieldInsnNode(Opcodes.GETFIELD, node.name, name, desc));
-            getter.instructions.add(new InsnNode(getReturn(Type.getType(desc))));
-            node.methods.add(getter);
-
-            for (MethodNode method : node.methods) {
-                if ("<init>".equals(method.name)) {
-                    InsnList insns = new InsnList();
-
-                    insns.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                    insns.add(new TypeInsnNode(Opcodes.NEW, desc.substring(1, desc.length() - 1)));
-                    insns.add(new InsnNode(Opcodes.DUP));
-                    insns.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                    insns.add(new MethodInsnNode(
-                            Opcodes.INVOKESPECIAL,
-                            desc.substring(1, desc.length() - 1),
-                            "<init>",
-                            "(L" + node.name + ";)V",
-                            false
-                    ));
-                    insns.add(new FieldInsnNode(Opcodes.PUTFIELD, node.name, name, desc));
-
-                    for (AbstractInsnNode insn : method.instructions) {
-                        if (insn.getOpcode() == Opcodes.RETURN) {
-                            method.instructions.insertBefore(insn, insns);
-                        }
-                    }
-
-                    method.instructions.insert(method.instructions.getFirst(), insns);
-                }
-            }
         });
 
         setterMap.forEach((name, desc) -> {

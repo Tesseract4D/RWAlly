@@ -28,7 +28,7 @@ public class StopButton extends class_349 {
     }
 
     public final boolean method_607(Unit ce, boolean boolean2) {
-        GameEngine game = Union.getGameEngine();
+        GameEngine game = GameEngine.get();
         Action m = class_961.method_2560();
         m.field_5097 = true;
         method_2522(m);

@@ -8,6 +8,7 @@ import com.corrodinggames.rts.union.game.units.WaypointType;
 import com.corrodinggames.rts.union.game.units.a.ActionId;
 import com.corrodinggames.rts.union.game.units.class_431;
 import com.corrodinggames.rts.union.gameFramework.Action;
+import com.corrodinggames.rts.union.gameFramework.GameEngine;
 import com.corrodinggames.rts.union.gameFramework.j.NetworkEngine;
 import com.corrodinggames.rts.union.gameFramework.j.class_1030;
 import com.corrodinggames.rts.union.gameFramework.j.class_1037;
@@ -120,7 +121,7 @@ public class RustedNetwork extends RustedWrapper<NetworkEngine> {
         waypoint.y = y;
 
         //Action
-        Action action = Union.getGameEngine().actionManager.createAction();
+        Action action = GameEngine.get().actionManager.createAction();
         action.field_5084 = network.field_5873 + network.field_5866;
         action.player = player;
         action.waypoint = waypoint;

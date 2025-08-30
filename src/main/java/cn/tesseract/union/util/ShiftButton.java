@@ -26,8 +26,8 @@ public class ShiftButton extends class_349 {
 
     public final boolean method_607(Unit ce, boolean boolean2) {
         disabled = !disabled;
-        if (disabled) Union.getGameEngine().method_3027(59, new KeyEvent(1, 59));
-        else Union.getGameEngine().method_2992(59, new KeyEvent(0, 59));
+        if (disabled) GameEngine.get().method_3027(59, new KeyEvent(1, 59));
+        else GameEngine.get().method_2992(59, new KeyEvent(0, 59));
         return true;
     }
 
