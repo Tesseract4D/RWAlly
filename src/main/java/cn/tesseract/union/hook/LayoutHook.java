@@ -2,20 +2,19 @@ package cn.tesseract.union.hook;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import cn.tesseract.union.asm.Hook;
 import com.corrodinggames.rts.union.R$id;
 import com.corrodinggames.rts.union.appFramework.MainMenuActivity;
+import com.corrodinggames.rts.union.appFramework.ReplaySelectActivity;
 import com.corrodinggames.rts.union.appFramework.class_97;
 
 public class LayoutHook {
     @Hook
     public static void warnAboutBugs(MainMenuActivity c) {
-        Toast.makeText(c, "联盟版 v1.3 洗玻璃呀制作", Toast.LENGTH_SHORT).show();
-        Toast.makeText(c, "群号：927263395", Toast.LENGTH_LONG).show();
         ((Button) c.findViewById(R$id.startgameButton)).setWidth(900);
         ((Button) c.findViewById(R$id.menuCustomButton)).setWidth(900);
         ((Button) c.findViewById(R$id.multiplayerButton)).setWidth(900);
@@ -37,9 +36,6 @@ public class LayoutHook {
         ((LinearLayout) l1.getParent()).addView(l2);
 
         Button b;
-        l1.removeView(b = (Button) c.findViewById(R$id.helpButton));
-        l2.addView(b, lp);
-        b.setWidth(450);
 
         l1.removeView(b = (Button) c.findViewById(R$id.exitgameButton));
         l2.addView(b, lp);
@@ -48,6 +44,19 @@ public class LayoutHook {
                     .setTitle("更新日志")
                     .setMessage("""
                             群号：927263395
+                            
+                            联盟版 v1.4 更新日志:
+                            现在已完全支持js脚本，有一套便于使用和移植的api，旧的脚本需要重写才能在结盟版上使用
+                            新增指令：
+                            income : 设置经济倍率
+                            help : 查看所有指令
+                            rs : 立刻同步
+                            unitcap : 设置单位上限
+                            max : 设置最大人数
+                            sh : 开关分享控制
+                            nukes : 开关禁核弹
+                            echo : 给你自己发送信息
+                            rl : 重载脚本
                             
                             联盟版 v1.3 更新日志:
                             主界面排版调整
@@ -81,10 +90,20 @@ public class LayoutHook {
         });
         b.setVisibility(View.VISIBLE);
         b.setWidth(450);
+
+        l1.removeView(b = (Button) c.findViewById(R$id.helpButton));
+        l2.addView(b, lp);
+        b.setWidth(450);
+        b.setOnClickListener(view -> {
+            Intent i = new Intent(c.getApplicationContext(), ReplaySelectActivity.class);
+            i.putExtra("manage", true);
+            c.startActivityForResult(i, 0);
+        });
     }
 
     @Hook(injector = "exit")
     public static void setButtonText(MainMenuActivity c) {
         ((Button) c.findViewById(R$id.exitgameButton)).setText("更新日志");
+        ((Button) c.findViewById(R$id.helpButton)).setText("脚本");
     }
 }

@@ -1,7 +1,6 @@
 package cn.tesseract.union.hook;
 
 import android.graphics.Paint;
-import cn.tesseract.union.api.Union;
 import cn.tesseract.union.asm.Hook;
 import cn.tesseract.union.asm.ReturnCondition;
 import cn.tesseract.union.util.RangeType2Button;

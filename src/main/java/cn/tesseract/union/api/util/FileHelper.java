@@ -27,8 +27,8 @@ public class FileHelper {
         return FileManager.mkdir("/SD/rustedWarfare/" + path);
     }
 
-    public static boolean renameFile(String from, String to) {
-        return FileManager.renameFile(from, "/SD/rustedWarfare/", to);
+    public static boolean renameFile(String from, String to,String dir) {
+        return FileManager.renameFile(from, dir, to);
     }
 
     public static String read(InputStream is) throws IOException {

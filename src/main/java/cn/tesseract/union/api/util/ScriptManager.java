@@ -1,0 +1,73 @@
+package cn.tesseract.union.api.util;
+
+import cn.tesseract.union.api.rusted.RustedGame;
+import com.corrodinggames.rts.union.gameFramework.GameEngine;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+
+import java.io.InputStreamReader;
+import java.util.HashMap;
+
+public final class ScriptManager {
+    public static final Context CONTEXT = Context.enter();
+    private static final HashMap<String, Scriptable> SCOPES = new HashMap<>();
+
+    static {
+        CONTEXT.setOptimizationLevel(-1);
+    }
+
+    public static Scriptable getScope(String id) {
+        Scriptable scope = SCOPES.get(id);
+        if (scope == null) {
+            scope = CONTEXT.initStandardObjects();
+            SCOPES.put(id, scope);
+        }
+        return scope;
+    }
+
+    public static void call(String name, Object... args) {
+        Context cx = Context.enter();
+        cx.setOptimizationLevel(-1);
+        SCOPES.forEach((id, scope) -> {
+            if (scope.get(name, scope) instanceof Function func) {
+                try {
+                    func.call(cx, scope, scope, args);
+                } catch (Throwable e) {
+                    RustedGame.get().toast("在执行 " + id + " 时发生错误，日志保存在 union.log 中!");
+                    FileHelper.log(GameEngine.method_3011(e));
+                }
+            }
+        });
+        cx.close();
+    }
+
+    public static void reload() {
+        SCOPES.clear();
+        if (!FileHelper.dirExists("scripts")) {
+            FileHelper.mkdir("scripts");
+        }
+        int count = 0;
+        boolean error = false;
+        String[] scripts = FileHelper.listFiles("scripts");
+        for (String script : scripts) {
+            int i = script.indexOf('/');
+            if (i != -1) {
+                script = script.substring(i + 1);
+            }
+            if (script.endsWith(".js")) {
+                try {
+                    Scriptable scope = ScriptManager.getScope(script);
+                    scope.put("id", scope, script);
+                    ScriptManager.CONTEXT.evaluateReader(scope, new InputStreamReader(FileHelper.getInputStream("scripts/" + script)), script, 0, null);
+                    count++;
+                } catch (Exception e) {
+                    RustedGame.get().toast("在加载 " + script + " 时发生错误，日志保存在 union.log 中");
+                    FileHelper.log(e.toString());
+                    error = true;
+                }
+            }
+        }
+        if (count != 0 && !error) RustedGame.get().toast("成功加载了 " + count + " 个脚本");
+    }
+}

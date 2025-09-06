@@ -1,5 +1,8 @@
 package cn.tesseract.union.hook;
 
+import cn.tesseract.union.accessor.ConnectionAccessor;
+import cn.tesseract.union.accessor.PlayerAccessor;
+import cn.tesseract.union.api.rusted.RustedNetwork;
 import cn.tesseract.union.asm.Hook;
 import cn.tesseract.union.asm.ReturnCondition;
 import com.corrodinggames.rts.union.game.Player;
@@ -7,8 +10,6 @@ import com.corrodinggames.rts.union.gameFramework.j.NetworkEngine;
 import com.corrodinggames.rts.union.gameFramework.j.class_1037;
 
 public class CommandHook {
-
-
     @Hook(returnCondition = ReturnCondition.ON_TRUE)
     public static boolean method_2767(NetworkEngine c, class_1037 conn, Player player, String name, String message) {
         boolean qc;
@@ -20,8 +21,6 @@ public class CommandHook {
             qc = true;
         }
 
-        String arg;
-        String[] args;
 
         if ((command.startsWith("-") || command.startsWith(".") || command.startsWith("_")) && command.length() >= 2) {
             String s = command.substring(1).trim();
@@ -30,16 +29,10 @@ public class CommandHook {
                 i = s.length();
             }
             command = s.substring(0, i).toLowerCase();
-            if (s.length() >= (i = i + 1)) {
-                arg = s.substring(i).trim();
-                args = s.split(" ");
-            }
-        } else {
-            return false;
+            String arg = s.length() >= (i = i + 1) ? s.substring(i).trim() : "";
+            return RustedNetwork.get().executeCommand(command, ((PlayerAccessor) player).get_wrapper(), conn == null ? null : ((ConnectionAccessor) conn).get_wrapper(), arg);
         }
 
-
-
-        return false;
+        return qc;
     }
 }

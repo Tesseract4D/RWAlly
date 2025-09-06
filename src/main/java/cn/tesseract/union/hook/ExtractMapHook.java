@@ -4,8 +4,8 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import cn.tesseract.union.api.util.FileHelper;
-import cn.tesseract.union.asm.Hook;
 import cn.tesseract.union.api.util.GameHelper;
+import cn.tesseract.union.asm.Hook;
 import com.corrodinggames.rts.union.appFramework.LoadLevelActivity;
 import com.corrodinggames.rts.union.appFramework.ReplaySelectActivity;
 import com.corrodinggames.rts.union.gameFramework.GameEngine;
@@ -52,7 +52,7 @@ public class ExtractMapHook {
 
     @Hook
     public static void onCreateContextMenu(ReplaySelectActivity c, ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-        contextMenu.add(4, view.getId(), 0, "提取地图");
+        if (!c.getIntent().getBooleanExtra("manage", false)) contextMenu.add(4, view.getId(), 0, "提取地图");
     }
 
     @Hook
