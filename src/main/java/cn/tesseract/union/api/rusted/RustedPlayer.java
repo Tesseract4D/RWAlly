@@ -53,6 +53,10 @@ public class RustedPlayer extends RustedWrapper<Player> {
         inner.team = team;
     }
 
+    public int getColor() {
+        return inner.color;
+    }
+
     public void setColor(int color) {
         inner.color = color;
         inner.colour = color;
@@ -76,6 +80,14 @@ public class RustedPlayer extends RustedWrapper<Player> {
 
     public int getIncome() {
         return inner.getIncome();
+    }
+
+    public boolean getShareControl() {
+        return inner.field_1409;
+    }
+
+    public void setShareControl(boolean share) {
+        inner.field_1409 = share;
     }
 
     public boolean isDefeated() {

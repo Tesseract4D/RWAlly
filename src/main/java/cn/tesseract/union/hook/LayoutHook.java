@@ -94,16 +94,16 @@ public class LayoutHook {
         l1.removeView(b = (Button) c.findViewById(R$id.helpButton));
         l2.addView(b, lp);
         b.setWidth(450);
-        b.setOnClickListener(view -> {
+        /*b.setOnClickListener(view -> {
             Intent i = new Intent(c.getApplicationContext(), ReplaySelectActivity.class);
             i.putExtra("manage", true);
             c.startActivityForResult(i, 0);
-        });
+        });*/
     }
 
     @Hook(injector = "exit")
     public static void setButtonText(MainMenuActivity c) {
         ((Button) c.findViewById(R$id.exitgameButton)).setText("更新日志");
-        ((Button) c.findViewById(R$id.helpButton)).setText("脚本");
+        //((Button) c.findViewById(R$id.helpButton)).setText("脚本");
     }
 }

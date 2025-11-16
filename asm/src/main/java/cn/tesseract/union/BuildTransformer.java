@@ -4,6 +4,8 @@ import cn.tesseract.union.asm.Accessor;
 import cn.tesseract.union.javassist.CtClassTransformer;
 import javassist.*;
 import org.apache.commons.io.FileUtils;
+import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MethodNode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,6 +31,31 @@ public class BuildTransformer {
 
         DragonflyTransformer transformer = new DragonflyTransformer();
         HashSet<String> entries = new HashSet<>();
+
+        /*transformer.registerNodeTransformer("com.corrodinggames.rts.union.gameFramework.class_775", node -> {
+            for (MethodNode method : node.methods) {
+                for (int i = 0; i < method.instructions.size(); i++) {
+                    if (method.instructions.get(i) instanceof MethodInsnNode insn) {
+                        if(insn.name.equals("method_946")){
+                            method.instructions.remove(insn.getPrevious());
+                            method.instructions.remove(insn);
+                        }
+                    }
+                }
+            }
+        });*/
+
+        transformer.registerNodeTransformer("com.corrodinggames.rts.union.gameFramework.j.NetworkEngine", node -> {
+            for (MethodNode method : node.methods) {
+                for (int i = 0; i < method.instructions.size(); i++) {
+                    if (method.instructions.get(i) instanceof MethodInsnNode insn) {
+                        if(insn.name.equals("method_2765")){
+                            insn.name="onPlayerJoin";
+                        }
+                    }
+                }
+            }
+        });
 
         registerCtClassTransformer("com.corrodinggames.rts.union.gameFramework.m.class_1192", (pool, ctc) -> {
             try {

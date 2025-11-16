@@ -99,6 +99,10 @@ public class RustedNetwork extends RustedWrapper<NetworkEngine> {
         return ((PlayerAccessor) inner.field_5848).get_wrapper();
     }
 
+    public boolean isHost() {
+        return inner.field_5851;
+    }
+
     public boolean isOp(RustedPlayer player) {
         return inner.field_5851 && player.inner == inner.field_5848;
     }
@@ -115,9 +119,9 @@ public class RustedNetwork extends RustedWrapper<NetworkEngine> {
             } catch (NumberFormatException e) {
                 sendMessage("错误：" + arg + " 不是有效的数字！", conn);
             } catch (WrongUsageException e) {
-                sendMessage("错误：" + e.getMessage(), conn);
+                sendMessage("错误：" + e, conn);
             } catch (Exception e) {
-                sendMessage("未知的错误：" + e.getMessage(), conn);
+                sendMessage("未知的错误：" + e, conn);
             }
             return true;
         }
@@ -150,6 +154,10 @@ public class RustedNetwork extends RustedWrapper<NetworkEngine> {
         if (inner.field_5848 != null && inner.field_5848.teamId == index) {
             sendMessage(message, null);
         }
+    }
+
+    public void startGame(){
+        MultiplayerBattleroomActivity.lastLoaded.startNetButton.performClick();
     }
 
     @Deprecated
@@ -197,7 +205,10 @@ public class RustedNetwork extends RustedWrapper<NetworkEngine> {
     }
 
     public void setDelayedSync() {
-        if (isInGame()) delayedSync = true;
+        if (isInGame()) {
+            delayedSync = true;
+            inner.field_5954 = 1;
+        }
     }
 
     public void spawnUnit(RustedPlayer player, String name, float x, float y) {

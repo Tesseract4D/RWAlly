@@ -1,13 +1,12 @@
 package cn.tesseract.union.api.rusted;
 
-import cn.tesseract.union.accessor.ActionAccessor;
 import cn.tesseract.union.accessor.ConnectionAccessor;
 import cn.tesseract.union.accessor.PlayerAccessor;
-import com.corrodinggames.rts.union.gameFramework.Action;
 import com.corrodinggames.rts.union.gameFramework.GameEngine;
 import com.corrodinggames.rts.union.gameFramework.j.class_1037;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.Consumer;
 
 public class RustedConnection extends RustedWrapper<class_1037> {
     public RustedConnection(class_1037 instance) {
@@ -26,6 +25,16 @@ public class RustedConnection extends RustedWrapper<class_1037> {
             }
         }
         return null;
+    }
+
+    public static void forEach(Consumer consumer) {
+        for (ConnectionAccessor conn : (ConcurrentLinkedQueue<ConnectionAccessor>) GameEngine.get().field_6352.connections) {
+            consumer.accept(conn.get_wrapper());
+        }
+    }
+
+    public int getIndex() {
+        return inner.field_6168;
     }
 
     public RustedPlayer getPlayer() {

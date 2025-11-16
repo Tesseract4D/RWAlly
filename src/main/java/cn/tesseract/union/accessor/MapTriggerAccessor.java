@@ -1,5 +1,6 @@
 package cn.tesseract.union.accessor;
 
+import cn.tesseract.union.api.rusted.RustedTrigger;
 import cn.tesseract.union.asm.Accessor;
 import com.corrodinggames.rts.union.gameFramework.n.class_1255;
 
@@ -8,4 +9,8 @@ public interface MapTriggerAccessor {
     float get_baseSize();
 
     void set_baseSize(float f);
+
+    RustedTrigger get_wrapper();
+
+    void set_wrapper(RustedTrigger wrapper);
 }

@@ -1,14 +1,14 @@
 package cn.tesseract.union.hook;
 
 import cn.tesseract.union.api.event.*;
-import cn.tesseract.union.api.rusted.RustedAction;
-import cn.tesseract.union.api.rusted.RustedConnection;
-import cn.tesseract.union.api.rusted.RustedPlayer;
+import cn.tesseract.union.api.rusted.*;
 import cn.tesseract.union.api.util.ScriptManager;
 import cn.tesseract.union.asm.Hook;
 import cn.tesseract.union.asm.ReturnCondition;
 import com.corrodinggames.rts.union.game.Player;
 import com.corrodinggames.rts.union.game.class_317;
+import com.corrodinggames.rts.union.game.units.Unit;
+import com.corrodinggames.rts.union.game.units.custom.class_471;
 import com.corrodinggames.rts.union.gameFramework.Action;
 import com.corrodinggames.rts.union.gameFramework.GameEngine;
 import com.corrodinggames.rts.union.gameFramework.j.NetworkEngine;
@@ -54,9 +54,36 @@ public class EventHook {
 
     @Hook(targetMethod = "method_2734", returnCondition = ReturnCondition.ON_TRUE)
     public static boolean onAction(NetworkEngine c, Action action) {
-        if (!c.field_5851) return false;
         PlayerActionEvent event = new PlayerActionEvent(RustedPlayer.warp(action.player), RustedAction.warp(action));
         ScriptManager.call("onAction", event);
         return event.isCanceled();
+    }
+
+    @Hook
+    public static void method_912(Unit c, class_471 af, Unit ce) {
+        ScriptManager.call("onUnitAction", new UnitActionEvent(RustedUnit.warp(c), RustedUnit.warp(ce), af.name()));
+    }
+
+    @Hook
+    public static void method_961(Unit unit) {
+        ScriptManager.call("onUnitDefeated", new UnitDefeatedEvent(RustedUnit.warp(unit)));
+    }
+
+    @Hook
+    public static void method_946(Unit unit) {
+        ScriptManager.call("onUnitRemoved", new UnitRemovedEvent(RustedUnit.warp(unit)));
+    }
+
+    @Hook(createMethod = true)
+    public static void onPlayerJoin(NetworkEngine c, class_1037 conn) {
+        c.method_2765(conn);
+        if (conn != null) {
+            ScriptManager.call("onPlayerJoin", new PlayerJoinEvent(RustedPlayer.warp(conn.field_6142), RustedConnection.warp(conn)));
+            RustedNetwork.get().sendMessage("""
+                    这个房间使用了联盟版，能够提供包括但不限于屏蔽广告房，更多指令，拓展地图宾语的功能。
+                    你可以从QQ群927263395群文件获取该版本。
+                    作者：洗玻璃呀
+                    """, RustedConnection.warp(conn));
+        }
     }
 }

@@ -98,4 +98,8 @@ public class RustedUnit extends RustedWrapper<Unit> {
     public void remove() {
         inner.method_946();
     }
+
+    public String toString() {
+        return inner.toString();
+    }
 }

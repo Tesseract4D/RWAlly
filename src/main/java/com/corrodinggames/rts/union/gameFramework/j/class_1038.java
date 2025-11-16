@@ -1,11 +1,12 @@
 package com.corrodinggames.rts.union.gameFramework.j;
 
-import cn.tesseract.union.accessor.ConnectionAccessor;
-import cn.tesseract.union.accessor.PacketAccessor;
-import cn.tesseract.union.accessor.PlayerAccessor;
 import cn.tesseract.union.api.event.Event;
 import cn.tesseract.union.api.event.PacketEvent;
 import cn.tesseract.union.api.event.PlayerJoinEvent;
+import cn.tesseract.union.api.rusted.RustedConnection;
+import cn.tesseract.union.api.rusted.RustedNetwork;
+import cn.tesseract.union.api.rusted.RustedPacket;
+import cn.tesseract.union.api.rusted.RustedPlayer;
 import cn.tesseract.union.api.util.ScriptManager;
 import com.corrodinggames.rts.union.gameFramework.GameEngine;
 
@@ -99,10 +100,7 @@ public class class_1038 implements Runnable {
             this.field_6192.field_6164 = 0;
             if (!this.field_6192.field_6166) {
                 if (packet.field_6124 > 100) {
-                    if (packet.field_6124 == 110 && packet.field_6123.field_6142 != null) {
-                        ScriptManager.call("onJoin", new PlayerJoinEvent(((PlayerAccessor) packet.field_6123.field_6142).get_wrapper(), ((ConnectionAccessor) packet.field_6123).get_wrapper()));
-                    }
-                    Event event = new PacketEvent(((PacketAccessor) packet).get_wrapper());
+                    Event event = new PacketEvent(RustedPacket.warp(packet));
                     ScriptManager.call("onPacket", event);
                     if (!event.isCanceled()) this.field_6192.field_6165.method_2737(packet);
                     //this.field_6192.field_6165.field_5874.field_6015 = 0;

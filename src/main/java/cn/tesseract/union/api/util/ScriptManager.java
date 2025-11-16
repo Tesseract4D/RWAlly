@@ -10,17 +10,19 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 public final class ScriptManager {
-    public static final Context CONTEXT = Context.enter();
-    private static final HashMap<String, Scriptable> SCOPES = new HashMap<>();
+    public static final HashMap<String, Scriptable> SCOPES = new HashMap<>();
 
-    static {
-        CONTEXT.setOptimizationLevel(-1);
+    public static Context getContext() {
+        Context context = Context.enter();
+        context.setOptimizationLevel(-1);
+        context.setLanguageVersion(Context.VERSION_ES6);
+        return context;
     }
 
     public static Scriptable getScope(String id) {
         Scriptable scope = SCOPES.get(id);
         if (scope == null) {
-            scope = CONTEXT.initStandardObjects();
+            scope = getContext().initStandardObjects();
             SCOPES.put(id, scope);
         }
         return scope;
@@ -43,7 +45,9 @@ public final class ScriptManager {
     }
 
     public static void reload() {
+        Scriptable trigger = SCOPES.get("TRIGGER");
         SCOPES.clear();
+        if (trigger != null) SCOPES.put("TRIGGER", trigger);
         if (!FileHelper.dirExists("scripts")) {
             FileHelper.mkdir("scripts");
         }
@@ -59,7 +63,7 @@ public final class ScriptManager {
                 try {
                     Scriptable scope = ScriptManager.getScope(script);
                     scope.put("id", scope, script);
-                    ScriptManager.CONTEXT.evaluateReader(scope, new InputStreamReader(FileHelper.getInputStream("scripts/" + script)), script, 0, null);
+                    getContext().evaluateReader(scope, new InputStreamReader(FileHelper.getInputStream("scripts/" + script)), script, 0, null);
                     count++;
                 } catch (Exception e) {
                     RustedGame.get().toast("在加载 " + script + " 时发生错误，日志保存在 union.log 中");

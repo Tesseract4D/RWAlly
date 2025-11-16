@@ -14,6 +14,7 @@ import com.corrodinggames.rts.union.gameFramework.GameEngine;
 import com.corrodinggames.rts.union.gameFramework.j.NetworkEngine;
 import com.corrodinggames.rts.union.gameFramework.j.class_1032;
 import com.corrodinggames.rts.union.gameFramework.j.class_1037;
+import com.corrodinggames.rts.union.gameFramework.n.class_1255;
 
 import java.net.Socket;
 
@@ -54,12 +55,17 @@ public class WrapperHook {
     }
 
     @Hook(targetMethod = "<init>")
-    public static void init(class_1032 c) {
+    public static void init(class_1032 c,int type) {
         ((PacketAccessor) c).set_wrapper(new RustedPacket(c));
     }
 
     @Hook(targetMethod = "<init>")
     public static void init(GameMap c) {
         ((MapAccessor) c).set_wrapper(new RustedMap(c));
+    }
+
+    @Hook(targetMethod = "<init>")
+    public static void init(class_1255 c) {
+        ((MapTriggerAccessor) c).set_wrapper(new RustedTrigger(c));
     }
 }
