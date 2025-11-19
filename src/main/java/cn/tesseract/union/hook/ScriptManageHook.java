@@ -9,22 +9,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import cn.tesseract.union.api.rusted.RustedGame;
-import cn.tesseract.union.api.util.FileHelper;
+import cn.tesseract.union.util.FileHelper;
 import cn.tesseract.union.asm.Hook;
 import cn.tesseract.union.asm.HookPriority;
 import cn.tesseract.union.asm.ReturnCondition;
+import cn.tesseract.union.util.GameHelper;
 import com.corrodinggames.rts.union.R$drawable;
 import com.corrodinggames.rts.union.R$id;
 import com.corrodinggames.rts.union.appFramework.*;
-import com.corrodinggames.rts.union.gameFramework.GameEngine;
-import com.corrodinggames.rts.union.gameFramework.e.FileManager;
+import com.corrodinggames.rts.union.gameFramework.class_1061;
+import com.corrodinggames.rts.union.gameFramework.e.class_899;
 
 public class ScriptManageHook {
     @Hook(returnCondition = ReturnCondition.ON_TRUE)
     public static boolean setup(ReplaySelectActivity c, boolean b) {
         if (c.getIntent().getBooleanExtra("manage", false)) {
-            GameEngine.method_3037(c);
+            class_1061.method_3037(c);
             if (!class_84.method_137(c)) {
                 c.finish();
             } else {
@@ -44,7 +44,7 @@ public class ScriptManageHook {
                         Button btn = new Button(c.getBaseContext());
                         btn.setId(i);
                         btn.setTag(name);
-                        name = FileManager.method_2194(name);
+                        name = class_899.method_2194(name);
                         btn.setBackgroundResource(R$drawable.btn_dropdown);
                         btn.setText(name);
                         btn.setTextColor(-1);
@@ -90,7 +90,7 @@ public class ScriptManageHook {
                         }
                         FileHelper.renameFile(name, disabled ? name.substring(0, name.length() - 9) : name + ".disabled", "scripts/");
                         c.refresh();
-                        RustedGame.get().toast("脚本设置将在重启后生效");
+                        GameHelper.toast("脚本设置将在重启后生效");
                     })
                     .setNegativeButton("确定", (DialogInterface.OnClickListener) new class_97())
                     .show();

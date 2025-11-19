@@ -3,10 +3,10 @@ package cn.tesseract.union.hook;
 import cn.tesseract.union.accessor.SideBarAccessor;
 import cn.tesseract.union.asm.Hook;
 import cn.tesseract.union.asm.ReturnCondition;
-import cn.tesseract.union.util.*;
-import com.corrodinggames.rts.union.game.units.Unit;
+import cn.tesseract.union.button.*;
 import com.corrodinggames.rts.union.game.units.a.class_336;
 import com.corrodinggames.rts.union.game.units.a.class_339;
+import com.corrodinggames.rts.union.game.units.class_426;
 import com.corrodinggames.rts.union.gameFramework.f.class_908;
 import com.corrodinggames.rts.union.gameFramework.f.class_961;
 
@@ -25,7 +25,7 @@ public class ChatButtonHook {
     }
 
     @Hook(injector = "simple:add,1")
-    public static void method_2365(class_908 c, Unit class_415Var, ArrayList arrayList) {
+    public static void method_2365(class_908 c, class_426 class_415Var, ArrayList arrayList) {
         SideBarAccessor a = (SideBarAccessor) c.field_5182;
         c.field_5199.add(a.get_chatButton());
         c.field_5199.add(a.get_mapTextButton());

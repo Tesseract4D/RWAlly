@@ -8,7 +8,7 @@ import cn.tesseract.union.asm.ReturnCondition;
 import com.corrodinggames.rts.union.appFramework.MultiplayerBattleroomActivity;
 import com.corrodinggames.rts.union.appFramework.class_166;
 import com.corrodinggames.rts.union.appFramework.class_167;
-import com.corrodinggames.rts.union.game.Player;
+import com.corrodinggames.rts.union.game.class_324;
 import com.corrodinggames.rts.union.gameFramework.h.class_988;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class SpawnPositionHook {
         }
         arrayList.add(new class_167("-3", "观战", -1));
         for (int i = 0; i < 100; i++) {
-            arrayList.add(new class_167(String.valueOf(i), (i + 1) + " 号 " + (i % 2 == 0 ? "A" : "B") + " 队 ", Player.method_522(i % 10)));
+            arrayList.add(new class_167(String.valueOf(i), (i + 1) + " 号 " + (i % 2 == 0 ? "A" : "B") + " 队 ", class_324.method_522(i % 10)));
         }
         arrayList.add(new class_167("-3", "观战", -1));
         class_166 class_182Var = new class_166(c, arrayList);
@@ -38,7 +38,7 @@ public class SpawnPositionHook {
             arrayList.add(new class_167("0", "自动", -1));
         }
         for (int i = 0; i < 100; i++) {
-            arrayList.add(new class_167(String.valueOf(i + 1), Player.method_467(i) + " 队 ", Player.method_522(i)));
+            arrayList.add(new class_167(String.valueOf(i + 1), class_324.method_467(i) + " 队 ", class_324.method_522(i)));
         }
         class_166 class_182Var = new class_166(c, arrayList);
         class_182Var.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
@@ -46,7 +46,7 @@ public class SpawnPositionHook {
     }
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
-    public static String method_467(Player c, int t) {
+    public static String method_467(class_324 c, int t) {
         return t == -3 ? "S" : String.valueOf(t + 1);
     }
 }

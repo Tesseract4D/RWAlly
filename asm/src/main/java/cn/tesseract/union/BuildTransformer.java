@@ -45,12 +45,24 @@ public class BuildTransformer {
             }
         });*/
 
-        transformer.registerNodeTransformer("com.corrodinggames.rts.union.gameFramework.j.NetworkEngine", node -> {
+        transformer.registerNodeTransformer("com.corrodinggames.rts.union.gameFramework.class_898", node -> {
+            for (MethodNode method : node.methods) {
+                if (method.name.equals("method_2156")) for (int i = 0; i < method.instructions.size(); i++) {
+                    if (method.instructions.get(i) instanceof MethodInsnNode insn) {
+                        if (insn.name.equals("method_1018")) {
+                            insn.name = "onCommandSpawn";
+                        }
+                    }
+                }
+            }
+        });
+
+        transformer.registerNodeTransformer("com.corrodinggames.rts.union.gameFramework.j.class_1001", node -> {
             for (MethodNode method : node.methods) {
                 for (int i = 0; i < method.instructions.size(); i++) {
                     if (method.instructions.get(i) instanceof MethodInsnNode insn) {
-                        if(insn.name.equals("method_2765")){
-                            insn.name="onPlayerJoin";
+                        if (insn.name.equals("method_2765")) {
+                            insn.name = "onPlayerJoin";
                         }
                     }
                 }
@@ -76,7 +88,7 @@ public class BuildTransformer {
             try {
                 CtMethod ctm = ctc.getDeclaredMethod("method_2365");
                 ctm.addLocalVariable("index", pool.get(int.class.getName()));
-                ctm.addLocalVariable("shift", pool.get("cn.tesseract.union.util.ShiftButton"));
+                ctm.addLocalVariable("shift", pool.get("cn.tesseract.union.button.ShiftButton"));
                 ctm.insertAt(1389, """
                         {
                             index=$0.field_5199.indexOf($0.field_5182.field_5605);

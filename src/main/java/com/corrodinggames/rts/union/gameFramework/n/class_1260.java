@@ -2,15 +2,13 @@ package com.corrodinggames.rts.union.gameFramework.n;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import cn.tesseract.union.api.rusted.RustedNetwork;
-import cn.tesseract.union.api.util.FileHelper;
-import cn.tesseract.union.api.util.ScriptManager;
+import cn.tesseract.union.util.NetHelper;
 import com.corrodinggames.rts.game.units.custom.logicBooleans.VariableScope;
-import com.corrodinggames.rts.union.game.Player;
 import com.corrodinggames.rts.union.game.b.class_298;
 import com.corrodinggames.rts.union.game.b.class_305;
+import com.corrodinggames.rts.union.game.class_324;
 import com.corrodinggames.rts.union.game.units.custom.class_548;
-import com.corrodinggames.rts.union.gameFramework.GameEngine;
+import com.corrodinggames.rts.union.gameFramework.class_1061;
 import com.corrodinggames.rts.union.gameFramework.n.a.class_1257;
 import com.corrodinggames.rts.union.gameFramework.n.a.class_1258;
 
@@ -19,7 +17,7 @@ import java.util.Iterator;
 public class class_1260 {
     public static class_1255 method_3436(class_1273 p, class_298 a2) throws class_305 {
         try {
-            GameEngine gameEngine = GameEngine.get();
+            class_1061 gameEngine = class_1061.method_3076();
             String str = a2.field_859;
             if (str == null) {
                 str = "NULL";
@@ -54,7 +52,7 @@ public class class_1260 {
                 trigger.field_7017 = a2.field_859;
                 Integer numMethod_3423 = trigger.method_3423("team");
                 if (numMethod_3423 != null) {
-                    trigger.field_7041 = Player.method_526(numMethod_3423.intValue());
+                    trigger.field_7041 = class_324.method_526(numMethod_3423);
                     if (trigger.field_7041 == null) {
                         trigger.method_3427("Cannot find team:".concat(String.valueOf(numMethod_3423)));
                         return null;
@@ -70,26 +68,10 @@ public class class_1260 {
                 trigger.field_7014 = trigger.method_3426("globalMessage");
                 trigger.field_7039 = trigger.method_3422("textOffsetX");
                 trigger.field_7040 = trigger.method_3422("textOffsetY");
-                if (trigger.field_7023 == class_1261.mapText || trigger.field_7023 == class_1261.objective) {
+                if (trigger.field_7023 == class_1261.field_7069 || trigger.field_7023 == class_1261.field_7063) {
                     trigger.field_7042 = trigger.method_3426("text");
                 }
-                if (trigger.field_7023 == class_1261.objective) {
-                    if (RustedNetwork.get().isHost()) {
-                        if (ScriptManager.SCOPES.containsKey("TRIGGER")) {
-                            trigger.method_3427("已经加载了一个脚本！");
-                        } else {
-                            String source = trigger.method_3421("script");
-                            if (source != null)
-                                try {
-                                    ScriptManager.getContext().evaluateString(ScriptManager.getScope("TRIGGER"), source, "Trigger: " + id, 0, null);
-                                } catch (Exception e) {
-                                    trigger.method_3427("在加载地图脚本 " + id + " 时发生错误，日志保存在 union.log 中");
-                                    FileHelper.log(e.toString());
-                                }
-                        }
-                    }
-                }
-                if (trigger.field_7023 == class_1261.mapText) {
+                if (trigger.field_7023 == class_1261.field_7069) {
                     p.field_7103 = true;
                     trigger.field_7015 = new Paint();
                     trigger.field_7015.setAntiAlias(true);
@@ -109,24 +91,24 @@ public class class_1260 {
                         }
                     }
                 }
-                if (trigger.field_7023 == class_1261.event_unitAdd) {
+                if (trigger.field_7023 == class_1261.field_7067) {
                     trigger.field_7038 = class_548.method_1260(null, trigger.method_3419("spawnUnits"), "<unitAdd>", "spawnUnits", false);
                     if (trigger.field_7041 == null) {
                         trigger.method_3427("No team set");
                     }
                 }
-                if (trigger.field_7023 == class_1261.event_teamTags) {
+                if (trigger.field_7023 == class_1261.field_7066) {
                     trigger.method_3414("addTeamTags");
                     trigger.method_3414("removeTeamTags");
                 }
-                if (trigger.field_7023 == class_1261.event_changeCredits) {
+                if (trigger.field_7023 == class_1261.field_7065) {
                     trigger.method_3414("add");
                     trigger.method_3414("set");
                 }
-                if (trigger.field_7023 == class_1261.trigger_unitDetect) {
+                if (trigger.field_7023 == class_1261.field_7071) {
                     trigger.method_3413(class_1258.method_3433(trigger));
                 }
-                if (trigger.field_7023 == class_1261.trigger_teamTagDetect) {
+                if (trigger.field_7023 == class_1261.field_7072) {
                     trigger.method_3413(class_1257.method_3432(trigger));
                 }
                 trigger.method_3414("comment");
@@ -139,10 +121,10 @@ public class class_1260 {
                 trigger.method_3414("text");
                 trigger.method_3414("target");
                 trigger.method_3414("onlyIfEmpty");
-                if (trigger.field_7023 == class_1261.event_move) {
+                if (trigger.field_7023 == class_1261.field_7064) {
                     trigger.method_3414("unload");
                 }
-                if (trigger.field_7023 == class_1261.event_unitRemove) {
+                if (trigger.field_7023 == class_1261.field_7068) {
                     trigger.method_3414("onlyIfEmpty");
                 }
                 return trigger;

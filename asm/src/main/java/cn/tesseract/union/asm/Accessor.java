@@ -74,7 +74,7 @@ public class Accessor implements NodeTransformer {
             }
 
             if (access == -1)
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(target);
 
             MethodNode proxy = new MethodNode(Opcodes.ACC_PUBLIC, "invoke_" + name, desc, null, null);
 

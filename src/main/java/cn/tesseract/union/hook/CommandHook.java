@@ -1,17 +1,15 @@
 package cn.tesseract.union.hook;
 
-import cn.tesseract.union.accessor.ConnectionAccessor;
-import cn.tesseract.union.accessor.PlayerAccessor;
-import cn.tesseract.union.api.rusted.RustedNetwork;
 import cn.tesseract.union.asm.Hook;
 import cn.tesseract.union.asm.ReturnCondition;
-import com.corrodinggames.rts.union.game.Player;
-import com.corrodinggames.rts.union.gameFramework.j.NetworkEngine;
+import cn.tesseract.union.util.NetHelper;
+import com.corrodinggames.rts.union.game.class_324;
+import com.corrodinggames.rts.union.gameFramework.j.class_1001;
 import com.corrodinggames.rts.union.gameFramework.j.class_1037;
 
 public class CommandHook {
     @Hook(returnCondition = ReturnCondition.ON_TRUE)
-    public static boolean method_2767(NetworkEngine c, class_1037 conn, Player player, String name, String message) {
+    public static boolean method_2767(class_1001 c, class_1037 conn, class_324 player, String name, String message) {
         boolean qc;
         String command = message.trim();
         if (!command.startsWith("-qc ")) {
@@ -30,7 +28,7 @@ public class CommandHook {
             }
             command = s.substring(0, i).toLowerCase();
             String arg = s.length() >= (i = i + 1) ? s.substring(i).trim() : "";
-            return RustedNetwork.get().executeCommand(command, ((PlayerAccessor) player).get_wrapper(), conn == null ? null : ((ConnectionAccessor) conn).get_wrapper(), arg);
+            return NetHelper.executeCommand(command, player, conn, arg);
         }
 
         return qc;

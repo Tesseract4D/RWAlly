@@ -2,14 +2,12 @@ package cn.tesseract.union.hook;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import cn.tesseract.union.asm.Hook;
 import com.corrodinggames.rts.union.R$id;
 import com.corrodinggames.rts.union.appFramework.MainMenuActivity;
-import com.corrodinggames.rts.union.appFramework.ReplaySelectActivity;
 import com.corrodinggames.rts.union.appFramework.class_97;
 
 public class LayoutHook {

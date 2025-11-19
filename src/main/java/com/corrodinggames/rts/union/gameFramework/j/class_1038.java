@@ -1,14 +1,7 @@
 package com.corrodinggames.rts.union.gameFramework.j;
 
-import cn.tesseract.union.api.event.Event;
-import cn.tesseract.union.api.event.PacketEvent;
-import cn.tesseract.union.api.event.PlayerJoinEvent;
-import cn.tesseract.union.api.rusted.RustedConnection;
-import cn.tesseract.union.api.rusted.RustedNetwork;
-import cn.tesseract.union.api.rusted.RustedPacket;
-import cn.tesseract.union.api.rusted.RustedPlayer;
-import cn.tesseract.union.api.util.ScriptManager;
-import com.corrodinggames.rts.union.gameFramework.GameEngine;
+import cn.tesseract.union.util.ScriptManager;
+import com.corrodinggames.rts.union.gameFramework.class_1061;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -31,25 +24,25 @@ public class class_1038 implements Runnable {
     @Override
     public final void run() {
         String message;
-        GameEngine.method_2981();
+        class_1061.method_2981();
         Thread.currentThread().setName("ReceiveWorker-" + this.field_6192.method_2905());
         try {
             method_2909();
         } catch (EOFException e) {
-            GameEngine.method_3010(this.field_6192.method_2903("network:ReceiveWorker: EOF reading packet"), e);
+            class_1061.method_3010(this.field_6192.method_2903("network:ReceiveWorker: EOF reading packet"), e);
         } catch (IOException e2) {
             if (!this.field_6192.field_6166) {
                 e2.printStackTrace();
             }
-            if (GameEngine.field_6309 && (e2 instanceof SocketException) && !this.field_6192.field_6166) {
-                GameEngine game = GameEngine.get();
+            if (class_1061.field_6309 && (e2 instanceof SocketException) && !this.field_6192.field_6166) {
+                class_1061 game = class_1061.method_3076();
                 if (!game.field_6352.field_5851 && game.field_6352.field_5898 && (message = e2.getMessage()) != null && message.contains("EBADF")) {
                     game.method_3056("Warning: This disconnect likely due to iOS removing sockets of background apps. Avoid minimising the game in multiplayer. Note: Games can be rejoined.");
                 }
             }
             this.field_6192.method_2901("network:ReceiveWorker: " + e2.getMessage());
         } catch (OutOfMemoryError e3) {
-            GameEngine.method_3034(e3);
+            class_1061.method_3034(e3);
             this.field_6192.method_2901("network:ReceiveWorker OutOfMemoryError: " + e3.getMessage());
         }
         this.field_6192.method_2896(true, false);
@@ -100,9 +93,10 @@ public class class_1038 implements Runnable {
             this.field_6192.field_6164 = 0;
             if (!this.field_6192.field_6166) {
                 if (packet.field_6124 > 100) {
-                    Event event = new PacketEvent(RustedPacket.warp(packet));
-                    ScriptManager.call("onPacket", event);
-                    if (!event.isCanceled()) this.field_6192.field_6165.method_2737(packet);
+                    //Event event = new PacketEvent(RustedPacket.warp(packet));
+                    var callback = new boolean[]{false};
+                    ScriptManager.call("onPacket", packet, callback);
+                    if (!callback[0]) this.field_6192.field_6165.method_2737(packet);
                     //this.field_6192.field_6165.field_5874.field_6015 = 0;
                 } else {
                     this.field_6192.field_6165.field_5889.add(packet);
