@@ -42,15 +42,14 @@ public class EventHook {
 
     @Hook(targetMethod = "method_2720")
     public static void onStartGame(class_1001 c) {
-        started = false;
+        started = true;
         ScriptManager.call("onStartGame");
     }
 
     @Hook(injector = "exit")
-    public static void method_3014(class_317 c, boolean boolean1, boolean boolean2, int integer) {
-        if (!started) {
+    public static void method_3014(class_317 c, boolean boolean1, boolean boolean2, int type) {
+        if (NetHelper.isHost() && type == 2) {
             ScriptManager.call("onPostStartGame");
-            started = true;
         }
     }
 

@@ -10,7 +10,7 @@ public interface MapTriggerAccessor {
 
     void set_baseSize(float f);
 
-    class_324 get_currentPlayer();
+    String get_boundUnit();
 
-    void set_currentPlayer(class_324 c);
+    void set_boundUnit(String c);
 }
