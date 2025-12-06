@@ -27,10 +27,6 @@ public class FileHelper {
         return class_899.method_2190("/SD/rustedWarfare/" + path);
     }
 
-    public static boolean renameFile(String from, String to,String dir) {
-        return class_899.method_2166(from, dir, to);
-    }
-
     public static String read(InputStream is) throws IOException {
         if (is == null) {
             return "";
