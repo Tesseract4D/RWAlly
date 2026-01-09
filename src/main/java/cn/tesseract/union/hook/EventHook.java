@@ -69,6 +69,13 @@ public class EventHook {
         return callback[0];
     }
 
+    @Hook(returnCondition = ReturnCondition.ON_TRUE)
+    public static boolean method_2816(class_1001 c, String string) {
+        var callback = new boolean[]{false};
+        ScriptManager.call("onClientChat", string, callback);
+        return callback[0];
+    }
+
     @Hook
     public static void method_912(class_426 c, class_471 af, class_426 ce) {
         ScriptManager.call("onUnitAction", c, af, ce);

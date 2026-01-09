@@ -5,6 +5,7 @@ import com.corrodinggames.rts.union.appFramework.MultiplayerBattleroomActivity;
 import com.corrodinggames.rts.union.game.b.class_299;
 import com.corrodinggames.rts.union.game.class_324;
 import com.corrodinggames.rts.union.game.units.class_426;
+import com.corrodinggames.rts.union.game.units.class_706;
 import com.corrodinggames.rts.union.gameFramework.class_1061;
 import com.corrodinggames.rts.union.gameFramework.class_773;
 
@@ -20,6 +21,10 @@ public class GameHelper {
 
     public static class_299 getMap() {
         return game.field_6339;
+    }
+
+    public static class_426 getWaypointUnit(class_706 waypoint) {
+        return waypoint.field_3934 == null ? getUnitById(waypoint.field_3933) : waypoint.field_3934;
     }
 
     public static class_426 getUnitById(long id) {

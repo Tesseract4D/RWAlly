@@ -1,5 +1,6 @@
 package cn.tesseract.union.hook;
 
+import cn.tesseract.union.accessor.NetworkAccessor;
 import cn.tesseract.union.asm.Hook;
 import cn.tesseract.union.asm.ReturnCondition;
 import cn.tesseract.union.util.NetHelper;
@@ -32,5 +33,12 @@ public class CommandHook {
         }
 
         return qc;
+    }
+
+    @Hook(returnCondition = ReturnCondition.ALWAYS, injector = "line:8309")
+    public static void method_2816(class_1001 c, String string) {
+        var a = (NetworkAccessor) c;
+        a.invoke_method_2741(null, c.field_5848, c.field_5848.field_1468, string);
+        a.invoke_method_2767(null, c.field_5848, c.field_5848.field_1468, string);
     }
 }

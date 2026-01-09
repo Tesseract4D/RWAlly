@@ -22,6 +22,7 @@ public class ScriptManager {
         Scriptable scope = scopes.get(id);
         if (scope == null) {
             scope = getContext().initStandardObjects();
+            scope.put("Union", scope, new ScriptUnion(scope));
             scopes.put(id, scope);
         }
         return scope;
@@ -72,5 +73,6 @@ public class ScriptManager {
             }
         }
         if (count != 0 && !error) GameHelper.toast("成功加载了 " + count + " 个脚本");
+        call("init");
     }
 }
